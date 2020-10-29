@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import UserProfile from '../Containers/UserProfile.js'
 
 function Signin() {
 
+    const [users, setUsers] = useState([])
+    const [currentUser, setCurrentUser] = useState(false)
+
     const submitHandler = (event) => {
         event.preventDefault()
-        console.log(event.target)
+        let username = event.target[0].value
+        let password = event.target[1].value
+        let newCurrentUser = users.find(user => user.username === username)
+        if(newCurrentUser) {
+            setCurrentUser(newCurrentUser)
+        }
     }
+
+    useEffect(() =>  {
+        fetch('http://localhost:3000/users/')
+        .then(response => response.json())
+        .then(usersJson => setUsers(usersJson))
+    }, [])
+    
+
     return(
         <div>
             <h1>hello</h1>
@@ -30,8 +47,11 @@ function Signin() {
 
             </form>
 
+            {currentUser ? < UserProfile user={currentUser}/> : console.log("nope")}
+
         </div>
     )
+
 }
 
 export default Signin

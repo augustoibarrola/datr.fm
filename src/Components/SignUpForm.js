@@ -52,7 +52,6 @@ function Signup() {
                     <input type="email" />
                 </div>
 
-
                 <div>
                     <label>Password:</label>
                     <input type="password"/>
