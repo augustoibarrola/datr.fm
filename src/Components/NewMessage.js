@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-function NewMessage() {
+function NewMessage(props) {
 
-    const messagesAPI_URL = 'http://localhost:3000/messages'
+    const messagesAPI_URL = 'http://localhost:3000/messages/'
 
     const [sender, setSender] = useState('')
     const [recipient, setRecipient] = useState('')
@@ -36,12 +36,13 @@ function NewMessage() {
             <form onSubmit={submitHandler}>
                 <div>
                     <label >From: </label>
-                    <input type="text" onChange={(event) => setSender(event.target.value)}/>
+                    <input type="text" value={props.user.name} onChange={(event) => setSender(event.target.value)} disabled />
                 </div>
 
                 <div>
                     <label >To: </label>
-                    <input type="text" onChange={(event) => setRecipient(event.target.value)}/>
+                    {/* <input type="text" onChange={(event) => setRecipient(event.target.value)}/> */}
+                    {}
                 </div>
 
                 <div>

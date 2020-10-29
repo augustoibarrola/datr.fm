@@ -26,7 +26,6 @@ function SignInForm(props) {
 
     return(
         <div>
-        {console.dir(props)}
             <h1>hello</h1>
             <h2>Sign in Please</h2>
 
@@ -49,7 +48,7 @@ function SignInForm(props) {
 
             </form>
 
-            {currentUser ? < UserProfile user={currentUser}/> : console.log("nope")}
+            {/* {currentUser ? < UserProfile user={currentUser}/> : console.log("nope")} */}
 
         </div>
     )
