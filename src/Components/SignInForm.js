@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import UserProfile from '../Containers/UserProfile.js'
 
-function Signin() {
+function SignInForm(props) {
 
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState(false)
@@ -13,6 +13,7 @@ function Signin() {
         let newCurrentUser = users.find(user => user.username === username)
         if(newCurrentUser) {
             setCurrentUser(newCurrentUser)
+            props.setUser(newCurrentUser)
         }
     }
 
@@ -25,6 +26,7 @@ function Signin() {
 
     return(
         <div>
+        {console.dir(props)}
             <h1>hello</h1>
             <h2>Sign in Please</h2>
 
@@ -54,4 +56,4 @@ function Signin() {
 
 }
 
-export default Signin
+export default SignInForm
