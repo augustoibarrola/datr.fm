@@ -1,23 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 function NewMessage() {
+
+    const [msgBody, setMsgBody] = useState('')
+    
     return(
         <div> 
             <h2>New Form</h2>
             <form>
                 <div>
                     <label >From: </label>
-                    <input />
+                    <input type="text" />
                 </div>
 
                 <div>
                     <label >To: </label>
-                    <input />
+                    <input type="text" />
                 </div>
 
                 <div>
                     <label >Message: </label>
-                    <input />
+                    <input type="text" />
                 </div>
 
             </form>
