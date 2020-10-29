@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 function NewMessage() {
 
-    const messagesAPI = 'http://localhost:3000/messages'
+    const messagesAPI_URL = 'http://localhost:3000/messages'
 
     const [sender, setSender] = useState('')
     const [recipient, setRecipient] = useState('')
@@ -15,7 +15,7 @@ function NewMessage() {
         let to = event.target[1].value
         let body = event.target[2].value
 
-        // fetch(messagesAPI, {
+        // fetch(messagesAPI_URL, {
         //     method: 'POST', 
         //     headers: {
         //         "content-type": "application/json",
@@ -32,7 +32,7 @@ function NewMessage() {
 
     return(
         <div> 
-            <h2>New Form</h2>
+            <h2>New Message</h2>
             <form onSubmit={submitHandler}>
                 <div>
                     <label >From: </label>
@@ -46,7 +46,7 @@ function NewMessage() {
 
                 <div>
                     <label >Message: </label>
-                    <input type="text" onChange={(event) => setMsgBody(event.target.value)}/>
+                    <input type="textarea" value={msgBody} onChange={(event) => setMsgBody(event.target.value)}/>
                 </div>
 
                 <div>

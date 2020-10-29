@@ -5,7 +5,28 @@ function Signup() {
         <div> 
             <h1>Sign Up</h1>
             <form>
-                <input placeholder="test"/> 
+                
+                <div>
+                    <label>Name:</label>
+                    <input type="text"/>
+                </div>
+
+                <div>
+                    <label>UserName:</label>
+                    <input type="text"/>
+                </div>
+
+                <div>
+                    <label>Email: </label>
+                    <input type="text" />
+                </div>
+
+
+                <div>
+                    <label>Password:</label>
+                    <input type="password"/>
+                </div>
+
             </form>
         </div>
     )
