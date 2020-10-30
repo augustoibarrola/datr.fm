@@ -1,5 +1,6 @@
 import React from 'react'
 import NewMessage from '../Components/NewMessage.js'
+import { Link } from 'react-router-dom'
 
 
 const UserProfile = (props) => {

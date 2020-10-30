@@ -4,6 +4,8 @@ import SignInForm from './Components/SignInForm.js'
 import Signup from './Components/SignUpForm.js'
 import UserNavBar from './Components/UserNavBar.js'
 import UserProfile from './Containers/UserProfile.js'
+import { Route, Switch } from 'react-router-dom'
+import Welcome from './Components/Welcome.js'
 
 function App() {
 
@@ -33,11 +35,14 @@ function App() {
     
   return (
     <div>
-
       {presentUser ? <UserNavBar /> : null }
       <div>
-        { presentUser ?  < UserProfile user={presentUser} users={users}/>  : < SignInForm user={presentUser} submitHandler={submitHandler}/> }
-        < Signup />
+      {/* { presentUser ?  < UserProfile user={presentUser} users={users}/>  : < SignInForm user={presentUser} submitHandler={submitHandler}/> } */}
+        <Switch>
+          <Route path="/signin" render={() =>  < SignInForm user={presentUser} submitHandler={submitHandler}/> } />
+          <Route path="/signup" render={() => < Signup /> } />
+          <Route path="/" render ={() => <Welcome />} />
+        </Switch>
       </div>
     </div>
   );
