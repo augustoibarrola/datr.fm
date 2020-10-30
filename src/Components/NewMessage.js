@@ -11,23 +11,24 @@ function NewMessage(props) {
     const submitHandler = (event) => {
         event.preventDefault()
 
-        let from = event.target[0].value
-        let to = event.target[1].value
+        let from = props.user.id
+        let to = props.users.find(name => event.target[1].value)
         let body = event.target[2].value
 
-        // fetch(messagesAPI_URL, {
-        //     method: 'POST', 
-        //     headers: {
-        //         "content-type": "application/json",
-        //         "accepts": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         sender_id: from.id,
-        //         recipient_id: to.id,
-        //         message_body: body
-        //     })
-        // })
-        //!! need to have a user logged in and a user in the database in order to be able to actually persist this. 
+        fetch(messagesAPI_URL, {
+            method: 'POST', 
+            headers: {
+                "content-type": "application/json",
+                "accepts": "application/json"
+            },
+            body: JSON.stringify({
+                sender_id: from,
+                recipient_id: to.id,
+                message_body: body
+            })
+        })
+        .then(response => response.json())
+        .then(console.log)
     }
 
     return(
@@ -41,8 +42,11 @@ function NewMessage(props) {
 
                 <div>
                     <label >To: </label>
-                    {/* <input type="text" onChange={(event) => setRecipient(event.target.value)}/> */}
-                    {}
+                    <select value={recipient} onChange={(event) => setRecipient(event.target.value)}>
+                        {props.users.map(user => <option value={user.name} id={user.id}> {user.name} </option>)}
+                        {/* <option value="option1" >option 1</option>
+                        <option value="option 2" >option 2</option> */}
+                    </select>
                 </div>
 
                 <div>

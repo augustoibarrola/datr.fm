@@ -34,9 +34,10 @@ function App() {
     
   return (
     <div>
+
       {presentUser ? <UserNavBar /> : null }
       <div>
-        { presentUser ?  < UserProfile user={presentUser}/>  : < SignInForm user={presentUser} submitHandler={submitHandler}/> }
+        { presentUser ?  < UserProfile user={presentUser} users={users}/>  : < SignInForm user={presentUser} submitHandler={submitHandler}/> }
         < Signup />
       </div>
     </div>

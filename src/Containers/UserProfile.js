@@ -7,7 +7,7 @@ const UserProfile = (props) => {
         <div>
             <p> user goes here: </p>
             {props.user.name}
-            < NewMessage user={props.user}/>
+            < NewMessage user={props.user} users={props.users}/>
         </div>
         )
 }
