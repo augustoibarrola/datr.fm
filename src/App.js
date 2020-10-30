@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import SignInForm from './Components/SignInForm.js'
 import Signup from './Components/SignUpForm.js'
-import NewMessage from './Components/NewMessage.js'
 import UserNavBar from './Components/UserNavBar.js'
 import UserProfile from './Containers/UserProfile.js'
 
@@ -15,7 +14,7 @@ function App() {
   const [presentUser, setPresentUser] = useState(false)
 
   const [users, setUsers] = useState([])
-  const [currentUser, setCurrentUser] = useState(false)
+
 
   const submitHandler = (event) => {
     event.preventDefault()
@@ -33,23 +32,12 @@ function App() {
     .then(usersJson => setUsers(usersJson))
   }, [])
     
-
-  // const loginToggle = () => {
-  //   if (presentUser === false) {
-  //    return < SignInForm user={presentUser} submitHandler={submitHandler}/>
-  //   } else if (currentUser !== false) {
-  //     <  UserProfile user={presentUser}/> 
-  //   }
-  // }
-
   return (
     <div>
       {presentUser ? <UserNavBar /> : null }
       <div>
-        {/* {loginToggle()} */}
-        {presentUser ?  < UserProfile user={presentUser}/>  : < SignInForm user={presentUser} submitHandler={submitHandler}/> }
+        { presentUser ?  < UserProfile user={presentUser}/>  : < SignInForm user={presentUser} submitHandler={submitHandler}/> }
         < Signup />
-        < NewMessage user={presentUser}/>
       </div>
     </div>
   );
