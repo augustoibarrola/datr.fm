@@ -12,7 +12,7 @@ function NewMessage(props) {
         event.preventDefault()
 
         let from = props.user.id
-        let to = props.users.find(user => user.name == event.target[1].value)
+        let to = props.users.find(user => user.name === event.target[1].value)
         let body = event.target[2].value
 
         fetch(messagesAPI_URL, {
