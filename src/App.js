@@ -14,21 +14,40 @@ function App() {
   // logged in, then it will show that user's profile. this is method loginToggle()
   const [presentUser, setPresentUser] = useState(false)
 
-  const loginToggle = () => {
-    if (presentUser === false) {
-     return < SignInForm user={presentUser} setUser={setPresentUser}/>
-    } else {
-      <  UserProfile user={presentUser}/> 
-    }
+  const [users, setUsers] = useState([])
+  const [currentUser, setCurrentUser] = useState(false)
 
+  const submitHandler = (event) => {
+    event.preventDefault()
+    let username = event.target[0].value
+    let password = event.target[1].value
+    let newCurrentUser = users.find(user => user.username === username)
+    if(newCurrentUser) {
+      setPresentUser(newCurrentUser)
+    }
   }
+
+  useEffect(() =>  {
+    fetch('http://localhost:3000/users/')
+    .then(response => response.json())
+    .then(usersJson => setUsers(usersJson))
+  }, [])
+    
+
+  // const loginToggle = () => {
+  //   if (presentUser === false) {
+  //    return < SignInForm user={presentUser} submitHandler={submitHandler}/>
+  //   } else if (currentUser !== false) {
+  //     <  UserProfile user={presentUser}/> 
+  //   }
+  // }
 
   return (
     <div>
-    {console.log("presentUser => ", presentUser)}
       {presentUser ? <UserNavBar /> : null }
       <div>
-        {loginToggle()}
+        {/* {loginToggle()} */}
+        {presentUser ?  < UserProfile user={presentUser}/>  : < SignInForm user={presentUser} submitHandler={submitHandler}/> }
         < Signup />
         < NewMessage user={presentUser}/>
       </div>
