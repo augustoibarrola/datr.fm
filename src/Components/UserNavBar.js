@@ -1,14 +1,15 @@
 import React from 'react'
 
 
-const UserNavBar = () => {
+const UserNavBar = (props) => {
     return(
         <div>
-            <p>link to messages should go here </p>
-            <p>link to logging out should go here </p>
+            <h2> Welcome {props.user.name}</h2>
+            <p>(UserNavBar Component)</p>
         </div>
 
     )
 }
 
 export default UserNavBar
+// imported in ../App.js

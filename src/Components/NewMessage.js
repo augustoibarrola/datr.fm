@@ -37,6 +37,8 @@ function NewMessage(props) {
             <form onSubmit={submitHandler}>
                 <div>
                     <label >From: </label>
+                    {console.log("props ==> ", props)}
+                    {console.log("props.user ==> ", props.user)}
                     <input type="text" value={props.user.name} onChange={(event) => setSender(event.target.value)} disabled />
                 </div>
 

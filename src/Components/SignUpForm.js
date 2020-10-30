@@ -6,7 +6,6 @@ function Signup() {
 
     const submitHandler = (event) => {
         event.preventDefault()
-        console.log(event.target[0].value)
         let name = event.target[0].value
         let userName = event.target[1].value
         let email = event.target[2].value
@@ -16,15 +15,18 @@ function Signup() {
         fetch(usersAPI_URL, {
             method: 'POST', 
             headers: {
+                Authorization: `Bearer <token>`,
                 "content-type": "application/json",
                 "accepts": "application/json"
             },
-            body: JSON.stringify({
-                name: name,
-                username: userName,
-                email: email,
-                description: description,
-                password: password
+            body: JSON.stringify({ 
+                user: {
+                    name: name,
+                    username: userName,
+                    email: email,
+                    description: description,
+                    password: password
+                }
             })
         })
         .then(response => response.json())

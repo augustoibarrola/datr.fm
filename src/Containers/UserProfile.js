@@ -7,10 +7,11 @@ const UserProfile = (props) => {
     return(
         <div>
             <p> user goes here: </p>
-            {props.user.name}
-            < NewMessage user={props.user} users={props.users}/>
+                {console.log("props => ", props)}
+                < NewMessage user={props.user} />
         </div>
         )
 }
 
 export default UserProfile
+// imported in ../App.js

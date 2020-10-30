@@ -17,11 +17,11 @@ function SignInForm(props) {
 
                 <div>
                     <label>Password:</label>
-                    <input />
+                    <input type="password" />
                 </div>
 
                 <div>
-                    <input type="submit"/>
+                    <input type="submit"/> 
                 </div>
 
                 <div>
