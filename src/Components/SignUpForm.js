@@ -15,7 +15,7 @@ function Signup() {
         fetch(usersAPI_URL, {
             method: 'POST', 
             headers: {
-                Authorization: `Bearer <token>`,
+                'Authorization': `Bearer <token>`,
                 "content-type": "application/json",
                 "accepts": "application/json"
             },

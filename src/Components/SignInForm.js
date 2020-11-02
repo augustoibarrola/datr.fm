@@ -24,11 +24,11 @@ function SignInForm(props) {
                     <input type="submit"/> 
                 </div>
 
-                <div>
-                    <NavLink to="/signup" >Sign Up</NavLink>
-                </div>
-
             </form>
+
+            <div>
+                <NavLink to="/signup" >Sign Up</NavLink>
+            </div>
 
         </div>
     )
@@ -36,3 +36,5 @@ function SignInForm(props) {
 }
 
 export default SignInForm
+// imported in ../App.js
+

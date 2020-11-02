@@ -26,26 +26,26 @@ function App() {
     let newCurrentUser = users.find(user => user.username === username)
     if(newCurrentUser) {
       setPresentUser(newCurrentUser)
-      
+    // console.log("newCurrentUser =>>", newCurrentUser)
     }
   }
 
   useEffect(() =>  {
-    fetch('http://localhost:3000/users/', {
-      method: 'GET', 
-      headers: {
-        'Authorization': 'Bearer <token>'
-      }
-    })
-    .then(response => response.json())
-    .then(usersJson => setUsers(usersJson))
+    // fetch('http://localhost:3000/users/', {
+    //   method: 'GET', 
+    //   headers: {
+    //     'Authorization': `Bearer <token>`,
+    //   }
+    // })
+    // .then(response => response.json())
+    // .then(usersJson => setUsers(usersJson))
   }, [])
     
   return (
     <div>
       {presentUser ? <UserNavBar user={presentUser}/> : null }
       <div>
-      {/* { presentUser ?  < UserProfile user={presentUser} users={users}/>  : < SignInForm user={presentUser} submitHandler={submitHandler}/> } */}
+
         <Switch>
 
           <Route path="/signin" render={() =>  < SignInForm user={presentUser} submitHandler={submitHandler}/> } />
@@ -57,7 +57,6 @@ function App() {
           <Route path="/users/:id" render ={({match}) => {
             let id = parseInt(match.params.id)
             let loggedUser = users.find(user => user.id === id)
-            console.log("logged user ==>", loggedUser)
             return < UserProfile user={loggedUser} /> 
           } } />
 
