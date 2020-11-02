@@ -4,7 +4,7 @@ import SignInForm from './Components/SignInForm.js'
 import Signup from './Components/SignUpForm.js'
 import UserNavBar from './Components/UserNavBar.js'
 import UserProfile from './Containers/UserProfile.js'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Welcome from './Components/Welcome.js'
 import UsersIndex from './Containers/UsersIndex.js'
 import NewMessage from './Components/NewMessage.js'
@@ -85,6 +85,7 @@ function App() {
       <div>
 
         <Switch>
+          {presentUser ? < Redirect to="/users/:id" user={presentUser} /> : null }
 
           <Route path="/signin" render={() =>  < SignInForm user={presentUser} submitHandler={submitHandler}/> } />
 
