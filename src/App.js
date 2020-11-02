@@ -11,12 +11,15 @@ import NewMessage from './Components/NewMessage.js'
 
 function App() {
 
+  const usersAPI_URL = 'http://localhost:3000/users'
+
+  const [users, setUsers] = useState([])
   // initial presentUser value is false, and while this is true, the sign-in
   // form will be displayed. when setPresentUser is set to whatever user is 
   // logged in, then it will show that user's profile. this is method loginToggle()
   const [presentUser, setPresentUser] = useState(false)
+  const [presentToken, setPresentToken] = useState('')
 
-  const [users, setUsers] = useState([])
 
 
   const submitHandler = (event) => {
@@ -40,9 +43,44 @@ function App() {
     // .then(response => response.json())
     // .then(usersJson => setUsers(usersJson))
   }, [])
+
+  const signUpSubmitHandler = (event) => {
+      event.preventDefault()
+      let name = event.target[0].value
+      let userName = event.target[1].value
+      let email = event.target[2].value
+      let description = ''
+      let password = event.target[3].value
+
+      fetch(usersAPI_URL, {
+          method: 'POST', 
+          headers: {
+              'Authorization': `Bearer <token>`,
+              "content-type": "application/json",
+              "accepts": "application/json"
+          },
+          body: JSON.stringify({ 
+              user: {
+                  name: name,
+                  username: userName,
+                  email: email,
+                  description: description,
+                  password: password
+              }
+          })
+      })
+      .then(response => response.json())
+      .then(user => {
+        setPresentToken(user.token)
+        setPresentUser(user.user)
+      })
+  }
+
     
   return (
     <div>
+    {console.log("present user =>", presentUser)}
+    {console.log("present token =>", presentToken)}
       {presentUser ? <UserNavBar user={presentUser}/> : null }
       <div>
 
@@ -50,7 +88,7 @@ function App() {
 
           <Route path="/signin" render={() =>  < SignInForm user={presentUser} submitHandler={submitHandler}/> } />
 
-          <Route path="/signup" render={() => < Signup /> } />
+          <Route path="/signup" render={() => < Signup submitHandler={signUpSubmitHandler} /> } />
     
           <Route path="/users/" exact render={() => < UsersIndex /> }/>
 

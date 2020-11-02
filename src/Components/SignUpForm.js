@@ -1,43 +1,11 @@
 import React from 'react'
 
-function Signup() {
-
-    const usersAPI_URL = 'http://localhost:3000/users'
-
-    const submitHandler = (event) => {
-        event.preventDefault()
-        let name = event.target[0].value
-        let userName = event.target[1].value
-        let email = event.target[2].value
-        let description = ''
-        let password = event.target[3].value
-
-        fetch(usersAPI_URL, {
-            method: 'POST', 
-            headers: {
-                'Authorization': `Bearer <token>`,
-                "content-type": "application/json",
-                "accepts": "application/json"
-            },
-            body: JSON.stringify({ 
-                user: {
-                    name: name,
-                    username: userName,
-                    email: email,
-                    description: description,
-                    password: password
-                }
-            })
-        })
-        .then(response => response.json())
-        .then(console.log)
-    }
-
+function Signup(props) {
 
     return(  
         <div> 
             <h1>Sign Up</h1>
-            <form onSubmit={submitHandler}>
+            <form onSubmit={(event) => props.submitHandler(event)}>
                 
                 <div>
                     <label>Name:</label>
