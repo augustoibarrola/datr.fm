@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import NewMessage from '../Components/NewMessage.js'
 import { Link } from 'react-router-dom'
 import UserNavBar from '../Components/UserNavBar.js'
+import UsersIndex from './UsersIndex.js'
 
 
 
@@ -26,6 +27,7 @@ const UserProfile = (user) => {
             {console.log("USERS_ARRAY ==>", user.users)}
             <h2> {user.user.name}'s User Profile Page</h2>
             {console.log("props 'user' argument ==>", user )}
+            <UsersIndex users={user.users} presentUser={user.user}/>
         </div>
         )
 }

@@ -11,7 +11,7 @@ const UsersIndex = (props) => {
         // </div>
         <div className="card-deck">
             <CardDeck>
-                {props.users.map(user => <UserProfileComponent key={user.id} user={user} />)}
+                {props.users.map(user => <UserProfileComponent key={user.id} user={user} presentUser={props.presentUser}/>)}
             </CardDeck>
         </div>
     )

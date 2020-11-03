@@ -12,6 +12,7 @@ import NewMessage from './Components/NewMessage.js'
 function App() {
 
   const usersAPI_URL = 'http://localhost:3000/users/'
+  const heartsAPI_URL = 'http://localhost:3000/hearts/'
 
   const [users, setUsers] = useState([])
   // initial presentUser value is false, and while this is true, the sign-in
@@ -47,20 +48,18 @@ function App() {
     })
     .then(response => response.json())
     .then(data => {
-      console.log("LOGIN DATA => ", data)
-      setPresentUser(data.user)
       localStorage.setItem("token", data.jwt)
-      setPresentToken(data.jwt)
+      setPresentUser(data.user)
     })
-    let token = localStorage.getItem("token")
-    fetch('http://localhost:3000/profile/', {
-      method: 'GET', 
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    })
-    .then(response => response.json())
-    .then(user=> console.log("user => ", user) )
+    // let token = localStorage.getItem("token")
+    // fetch('http://localhost:3000/profile/', {
+    //   method: 'GET', 
+    //   headers: {
+    //     'Authorization': `Bearer ${token}`,
+    //   }
+    // })
+    // .then(response => response.json())
+    // .then(user=> console.log("user => ", user) )
   }
 
   const signUpSubmitHandler = (event) => {
@@ -92,6 +91,7 @@ function App() {
       .then(newUser => setPresentUser(newUser))
   }
 
+
   useEffect(() =>  {
     let token = localStorage.getItem("token")
     if (token) {
@@ -109,21 +109,27 @@ function App() {
 
   return (
     <div>
+      {console.log("presentUser => ", presentUser)}
       <UserNavBar user={presentUser} users={users}  />
       <div>
-                <Switch>
-                <Route path="/" exact render={() => presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
-                <Route path="/signin" render={() => < SignInForm signInSubmitHandler={signInSubmitHandler}/>  }/>
-                {/* <Route path="/signup" render={() => < SignUpForm submitHandler={signUpSubmitHandler} /> } /> */}
-                <Route path="/users/" exact render={() => < UsersIndex users={users} /> }/>
-                <Route path="/users/:id" render={() => < UserProfile user={presentUser} /> } />
-
-
-                </Switch>
-            </div>
-
+            {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> }
+      </div>
     </div>
   );
 }
 
 export default App;
+
+
+
+
+// <Switch>
+// <Route exact path="/" render={() => presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+  
+// <Route path="/signin" render={() => < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
+// {/* <Route path="/signup" render={() => < SignUpForm submitHandler={signUpSubmitHandler} /> } /> */}
+// <Route path="/users/" exact render={() => < UsersIndex users={users} liked={likedButton}/> }/>
+// <Route path="/users/:id" render={() => < UserProfile user={presentUser} /> } />
+
+
+// </Switch>

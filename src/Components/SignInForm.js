@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import UserProfile from '../Containers/UserProfile.js'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 
 function SignInForm(props) {
 
@@ -21,7 +21,7 @@ function SignInForm(props) {
                 </div>
 
                 <div>
-                    <input type="submit"/> 
+                        <input type="submit"/> 
                 </div>
 
             </form>
