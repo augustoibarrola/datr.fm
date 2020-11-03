@@ -8,7 +8,7 @@ function SignInForm(props) {
         <div>
             <h2>Sign in Please</h2>
 
-            <form onSubmit={(event) => props.submitHandler(event)}>
+            <form onSubmit={(event) => props.signInSubmitHandler(event)}>
                 <div>
                     <label>UserName:</label>
                     <input />

@@ -2,3 +2,15 @@
     padding: 18px 20px;
     display: inline-block;
   }
+
+  .card-deck {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+    
+  }
+
+  .user-card {
+    max-width: 300px;
+  }

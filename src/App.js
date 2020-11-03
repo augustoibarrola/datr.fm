@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
 import SignInForm from './Components/SignInForm.js'
-import Signup from './Components/SignUpForm.js'
+import SignupForm from './Components/SignUpForm.js'
 import UserNavBar from './Components/UserNavBar.js'
 import UserProfile from './Containers/UserProfile.js'
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -11,38 +11,57 @@ import NewMessage from './Components/NewMessage.js'
 
 function App() {
 
-  const usersAPI_URL = 'http://localhost:3000/users'
+  const usersAPI_URL = 'http://localhost:3000/users/'
 
   const [users, setUsers] = useState([])
   // initial presentUser value is false, and while this is true, the sign-in
   // form will be displayed. when setPresentUser is set to whatever user is 
   // logged in, then it will show that user's profile. this is method loginToggle()
-  const [presentUser, setPresentUser] = useState(false)
+  const [presentUser, setPresentUser] = useState('')
   const [presentToken, setPresentToken] = useState('')
 
 
 
-  const submitHandler = (event) => {
+  const signInSubmitHandler = (event) => {
+      // a user hits the sign in button and a POST request to 
+      // /login/ is made, which triggers the auth#create action 
+      // in the backend. If a user is found given the username and their password 
+      // matches that users password_digest string, a token will be created with that user's
+      // id, and that user and that jwt token will be rendered. if the user isnt found
+      // by the auth#create action, the status will be "unauthorized", and the user will not
+      // have been created 
+
     event.preventDefault()
     let username = event.target[0].value
     let password = event.target[1].value
-    let newCurrentUser = users.find(user => user.username === username)
-    if(newCurrentUser) {
-      setPresentUser(newCurrentUser)
-    // console.log("newCurrentUser =>>", newCurrentUser)
-    }
-  }
 
-  useEffect(() =>  {
-    // fetch('http://localhost:3000/users/', {
-    //   method: 'GET', 
-    //   headers: {
-    //     'Authorization': `Bearer <token>`,
-    //   }
-    // })
-    // .then(response => response.json())
-    // .then(usersJson => setUsers(usersJson))
-  }, [])
+    let user = {username, password}
+
+    fetch('http://localhost:3000/login/', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'accepts': 'application/json'
+      },
+      body: JSON.stringify({ user })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("LOGIN DATA => ", data)
+      setPresentUser(data.user)
+      localStorage.setItem("token", data.jwt)
+      setPresentToken(data.jwt)
+    })
+    let token = localStorage.getItem("token")
+    fetch('http://localhost:3000/profile/', {
+      method: 'GET', 
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then(response => response.json())
+    .then(user=> console.log("user => ", user) )
+  }
 
   const signUpSubmitHandler = (event) => {
       event.preventDefault()
@@ -70,40 +89,39 @@ function App() {
           })
       })
       .then(response => response.json())
-      .then(user => {
-        setPresentToken(user.token)
-        setPresentUser(user.user)
-      })
+      .then(newUser => setPresentUser(newUser))
   }
 
-    
+  useEffect(() =>  {
+    let token = localStorage.getItem("token")
+    if (token) {
+      fetch('http://localhost:3000/users/', {
+        method: 'GET', 
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      })
+      .then(response => response.json())
+      .then(users=> setUsers(users) )
+    }
+  }, [])
+
+
   return (
     <div>
-    {console.log("present user =>", presentUser)}
-    {console.log("present token =>", presentToken)}
-      {presentUser ? <UserNavBar user={presentUser}/> : null }
+      <UserNavBar user={presentUser} users={users}  />
       <div>
-
-        <Switch>
-          {presentUser ? < Redirect to="/users/:id" user={presentUser} /> : null }
-
-          <Route path="/signin" render={() =>  < SignInForm user={presentUser} submitHandler={submitHandler}/> } />
-
-          <Route path="/signup" render={() => < Signup submitHandler={signUpSubmitHandler} /> } />
-    
-          <Route path="/users/" exact render={() => < UsersIndex /> }/>
-
-          <Route path="/users/:id" render ={({match}) => {
-            let id = parseInt(match.params.id)
-            let loggedUser = users.find(user => user.id === id)
-            return < UserProfile user={loggedUser} /> 
-          } } />
+                <Switch>
+                <Route path="/" exact render={() => presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+                <Route path="/signin" render={() => < SignInForm signInSubmitHandler={signInSubmitHandler}/>  }/>
+                {/* <Route path="/signup" render={() => < SignUpForm submitHandler={signUpSubmitHandler} /> } /> */}
+                <Route path="/users/" exact render={() => < UsersIndex users={users} /> }/>
+                <Route path="/users/:id" render={() => < UserProfile user={presentUser} /> } />
 
 
-          <Route path="/" exact render ={() => <Welcome />} />
+                </Switch>
+            </div>
 
-        </Switch>
-      </div>
     </div>
   );
 }

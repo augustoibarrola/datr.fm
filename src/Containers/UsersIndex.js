@@ -1,13 +1,23 @@
 import React from 'react'
-import UserProfileComponents from '../Components/UserProfileComponent.js'
+import UserProfileComponent from '../Components/UserProfileComponent.js'
+import { CardDeck } from 'react-bootstrap'
 
 const UsersIndex = (props) => {
     return(
-        <p>User Index</p>
+        // <div>
+        //     <p>User Index</p>
+        //     {props.users.map(user => <UserProfileComponent key={user.id} user={user} />)}
+        //     {console.log("users in userIndex =>", props)}
+        // </div>
+        <div className="card-deck">
+            <CardDeck>
+                {props.users.map(user => <UserProfileComponent key={user.id} user={user} />)}
+            </CardDeck>
+        </div>
     )
 }
 
 export default UsersIndex
 // imported in ../App.js
 
-// UsersIndex should contain UserProfileComponents
+// UsersIndex should contain UserProfileComponents 

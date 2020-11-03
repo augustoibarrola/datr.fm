@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Signup(props) {
+function SignUpForm(props) {
 
     return(  
         <div> 
@@ -36,4 +36,4 @@ function Signup(props) {
     )
 }
 
-export default Signup
+export default SignUpForm
