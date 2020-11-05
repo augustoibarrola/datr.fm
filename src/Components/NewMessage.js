@@ -1,53 +1,34 @@
 import React, { useState, useEffect } from 'react'
 
 function NewMessage(props) {
-
+    // console.log("NEWMESSAGE_PROPS =>", props)
     const messagesAPI_URL = 'http://localhost:3000/messages/'
 
-    const [sender, setSender] = useState('')
+    const [sender, setSender] = useState(props.user)
     const [recipient, setRecipient] = useState('')
     const [msgBody, setMsgBody] = useState('')
+  
+    const usersArray = props.users.filter( user => user.id !== props.user.id)
 
-    const submitHandler = (event) => {
-        event.preventDefault()
-
-        let from = props.user.id
-        let to = props.users.find(user => user.name === event.target[1].value)
-        let body = event.target[2].value
-
-        fetch(messagesAPI_URL, {
-            method: 'POST', 
-            headers: {
-                "content-type": "application/json",
-                "accepts": "application/json"
-            },
-            body: JSON.stringify({
-                sender_id: from,
-                recipient_id: to.id,
-                message_body: body
-            })
-        })
-        .then(response => response.json())
-        .then(console.log)
-    }
 
     return(
         <div> 
-            <h2>New Message</h2>
-            <form onSubmit={submitHandler}>
+            <h2>New Message</h2> 
+            <form onSubmit={(event) => {
+                props.messagesSubmitHandler(event, recipient)
+                setRecipient('')
+                setMsgBody('')
+                }}>
                 <div>
                     <label >From: </label>
-                    {console.log("props ==> ", props)}
-                    {console.log("props.user ==> ", props.user)}
-                    <input type="text" value={props.user.name} onChange={(event) => setSender(event.target.value)} disabled />
+                    <input type="text" value={sender.name} onChange={(event) => setSender(event.target.value)} disabled />
                 </div>
 
                 <div>
                     <label >To: </label>
-                    <select value={recipient} onChange={(event) => setRecipient(event.target.value)}>
-                        {props.users.map(user => <option value={user.name} id={user.id}> {user.name} </option>)}
-                        {/* <option value="option1" >option 1</option>
-                        <option value="option 2" >option 2</option> */}
+                    <select value={recipient} onChange={(event) => setRecipient(event.target.value)}> 
+                        {usersArray.map(user => <option value={user.name} id={user.id}> {user.name} </option>)} */}
+                    {/*  */}
                     </select>
                 </div>
 

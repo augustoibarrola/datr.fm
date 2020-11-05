@@ -1,11 +1,12 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 
 function SignUpForm(props) {
 
     return(  
         <div> 
             <h1>Sign Up</h1>
-            <form onSubmit={(event) => props.submitHandler(event)}>
+            <form onSubmit={(event) => props.signUpSubmitHandler(event)}>
                 
                 <div>
                     <label>Name:</label>
@@ -28,7 +29,9 @@ function SignUpForm(props) {
                 </div>
 
                 <div>
-                    <input type="submit"/>
+                    {/* <Redirect to="/" > */}
+                        <input type="submit"/>
+                    {/* </Redirect> */}
                 </div>
 
             </form>

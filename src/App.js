@@ -1,37 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
 import SignInForm from './Components/SignInForm.js'
-import SignupForm from './Components/SignUpForm.js'
+import SignUpForm from './Components/SignUpForm.js'
 import UserNavBar from './Components/UserNavBar.js'
 import UserProfile from './Containers/UserProfile.js'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Welcome from './Components/Welcome.js'
 import UsersIndex from './Containers/UsersIndex.js'
+import UserProfileComponent from './Components/UserProfileComponent.js'
+import UserProfileWidget from './Components/UserProfileWidget.js'
+import Messages from './Containers/Messages.js'
 import NewMessage from './Components/NewMessage.js'
 
-function App() {
+const App = () => {
 
   const usersAPI_URL = 'http://localhost:3000/users/'
   const heartsAPI_URL = 'http://localhost:3000/hearts/'
+  const messagesAPI_URL = 'http://localhost:3000/messages/'
 
   const [users, setUsers] = useState([])
-  // initial presentUser value is false, and while this is true, the sign-in
-  // form will be displayed. when setPresentUser is set to whatever user is 
-  // logged in, then it will show that user's profile. this is method loginToggle()
   const [presentUser, setPresentUser] = useState('')
+  const [presentUserSentMessages, setPresentUserSentMessages ] = useState('')
   const [presentToken, setPresentToken] = useState('')
 
 
 
   const signInSubmitHandler = (event) => {
-      // a user hits the sign in button and a POST request to 
-      // /login/ is made, which triggers the auth#create action 
-      // in the backend. If a user is found given the username and their password 
-      // matches that users password_digest string, a token will be created with that user's
-      // id, and that user and that jwt token will be rendered. if the user isnt found
-      // by the auth#create action, the status will be "unauthorized", and the user will not
-      // have been created 
-
     event.preventDefault()
     let username = event.target[0].value
     let password = event.target[1].value
@@ -51,15 +45,6 @@ function App() {
       localStorage.setItem("token", data.jwt)
       setPresentUser(data.user)
     })
-    // let token = localStorage.getItem("token")
-    // fetch('http://localhost:3000/profile/', {
-    //   method: 'GET', 
-    //   headers: {
-    //     'Authorization': `Bearer ${token}`,
-    //   }
-    // })
-    // .then(response => response.json())
-    // .then(user=> console.log("user => ", user) )
   }
 
   const signUpSubmitHandler = (event) => {
@@ -73,7 +58,7 @@ function App() {
       fetch(usersAPI_URL, {
           method: 'POST', 
           headers: {
-              'Authorization': `Bearer <token>`,
+              // 'Authorization': `Bearer <token>`,
               "content-type": "application/json",
               "accepts": "application/json"
           },
@@ -88,8 +73,64 @@ function App() {
           })
       })
       .then(response => response.json())
-      .then(newUser => setPresentUser(newUser))
+      .then(newUser => {
+        console.log("NEW_USER => ", newUser)
+        localStorage.setItem("token", newUser.jwt)
+        setPresentUser(newUser.user)
+      })
   }
+
+  const likedButton = (event) => {
+    console.log("presentUser id ==>", presentUser)
+    console.log("event.target ==>", event.target)
+
+    let token = localStorage.getItem("token")
+
+    fetch('http://localhost:3000/hearts', {
+      method: 'POST', 
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "content-type": "application/json",
+        "accepts": "application/json"
+      }, 
+      body: JSON.stringify({
+        liker_id: presentUser.id,
+        liked_id: event.target.id
+       })
+    })
+    .then(response => response.json())
+    .then(console.log)
+  }
+
+  const messagesSubmitHandler = (event, recipient) => {
+    event.preventDefault()
+    console.log("event when submitting new message => ", event)
+    
+    let sender_id = presentUser.id
+    let sendee = users.filter(user => user.name == recipient)
+    let recipient_id = sendee[0].id
+    let message_body = event.target[2].value
+    let token = localStorage.getItem("token")
+
+
+     fetch(messagesAPI_URL, {
+         method: 'POST', 
+         headers: {
+             'Authorization': `Bearer ${token}`,
+             "content-type": "application/json",
+             "accepts": "application/json"
+         },
+         body: JSON.stringify({
+             sender_id: sender_id,
+             recipient_id: recipient_id,
+             message_body: message_body
+         })
+     })
+     .then(response => response.json())
+     .then(data => {
+         console.log("POST_REQUEST_MESSAGES_RESPONSE => ", data)
+     })
+}
 
 
   useEffect(() =>  {
@@ -109,10 +150,37 @@ function App() {
 
   return (
     <div>
-      {console.log("presentUser => ", presentUser)}
+      {console.log("presentUser", presentUser)}
+      {console.log("presentUserSentMessages", presentUserSentMessages)}
+      {console.log("users", users)}
       <UserNavBar user={presentUser} users={users}  />
       <div>
-            {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> }
+        {/* {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> } */}
+        
+         <Switch>
+
+            <Route path="/users/:id" render={(routerProps) =>{
+              const idUser = users.find(user => user.id == routerProps.match.params.id )
+              return  < UserProfileComponent {...routerProps} user={idUser} users={users} likedButton={likedButton}/>
+            }}/>
+
+            <Route path="/users" render={() => < UsersIndex user={presentUser} users={users} likedButton={likedButton}/> }/>
+
+            <Route path="/signin" render={() =>  < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
+
+            <Route path="/signup" render={() =>  presentUser ? <Redirect to="/" />  : < SignUpForm signUpSubmitHandler={signUpSubmitHandler} /> } />
+            
+            <Route path="/signout" render={() => {
+                setPresentUser('')
+                localStorage.removeItem("token")
+            }} />
+
+            <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler}/> : null } />
+
+            <Route path="/" render={() => presentUser ? < UserProfileComponent user={presentUser} users={users} likedButton={likedButton}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+
+        </Switch>
+
       </div>
     </div>
   );
@@ -122,14 +190,3 @@ export default App;
 
 
 
-
-// <Switch>
-// <Route exact path="/" render={() => presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
-  
-// <Route path="/signin" render={() => < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
-// {/* <Route path="/signup" render={() => < SignUpForm submitHandler={signUpSubmitHandler} /> } /> */}
-// <Route path="/users/" exact render={() => < UsersIndex users={users} liked={likedButton}/> }/>
-// <Route path="/users/:id" render={() => < UserProfile user={presentUser} /> } />
-
-
-// </Switch>
