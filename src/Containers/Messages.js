@@ -21,7 +21,7 @@ const Messages = (props) => {
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
             >
-                <Tab eventKey="from" title="From">
+                <Tab eventKey="recieved" title="Recieved">
                     <RecievedMessages user={props.user} users={props.users} />
                 </Tab>
 

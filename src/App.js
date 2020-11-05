@@ -121,7 +121,7 @@ const App = () => {
              "accepts": "application/json"
          },
          body: JSON.stringify({
-             sender_id: sender_id,
+             sender_id: presentUser.id,
              recipient_id: recipient_id,
              message_body: message_body
          })
@@ -154,7 +154,7 @@ const App = () => {
       {console.log("presentUserSentMessages", presentUserSentMessages)}
       {console.log("users", users)}
       <UserNavBar user={presentUser} users={users}  />
-      <div>
+      <div className="ux-body">
         {/* {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> } */}
         
          <Switch>

@@ -26,7 +26,7 @@ const UserProfileComponent = (props) => {
             <h4>{props.user.username}</h4> */}
             <Card>
                     <Col xs={6} md={4}>
-                      <Image src={props.user.image_url} roundedCircle />
+                      <Image className="user-profile-component-circled-image" src={props.user.image_url} roundedCircle />
                     </Col>
                     {/* <Card.Img variant="top" src={props.user.image_url} /> */}
                     <Card.Body>

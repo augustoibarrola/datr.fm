@@ -3,6 +3,10 @@
     display: inline-block;
   }
 
+  .ux-body {
+    margin: 35px;
+  }
+
   .card-deck {
     display: flex;
     flex-direction: row;
@@ -17,4 +21,8 @@
   .user-card {
     max-width: 300px;
     padding-bottom: 20px;
+  }
+
+  .user-profile-component-circled-image {
+    max-width: 275px;
   }
