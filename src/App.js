@@ -153,7 +153,7 @@ const App = () => {
       {console.log("presentUser", presentUser)}
       {console.log("presentUserSentMessages", presentUserSentMessages)}
       {console.log("users", users)}
-      <UserNavBar user={presentUser} users={users}  />
+      <UserNavBar user={presentUser} users={users} />
       <div className="ux-body">
         {/* {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> } */}
         
@@ -173,6 +173,7 @@ const App = () => {
             <Route path="/signout" render={() => {
                 setPresentUser('')
                 localStorage.removeItem("token")
+               return presentUser ? <Redirect to="/" /> : <Redirect to="/" />
             }} />
 
             <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler}/> : null } />
