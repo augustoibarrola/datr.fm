@@ -29,7 +29,7 @@ const UserNavBar = (props) => {
                      </ReactBootStrap.NavDropdown>
                  </ReactBootStrap.Nav>
                  <ReactBootStrap.Nav>
-                { presentUser ? <NavLink to="/signout">Sign Out</NavLink> : <NavLink to="/signin">Sign In</NavLink>} 
+                { props.user ? <NavLink to="/signout">Sign Out</NavLink> : <NavLink to="/signin">Sign In</NavLink>} 
                  </ReactBootStrap.Nav>
             </ReactBootStrap.Navbar.Collapse>
              </ReactBootStrap.Navbar>
