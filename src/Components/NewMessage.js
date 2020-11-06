@@ -12,11 +12,16 @@ function NewMessage(props) {
     const usersArray = props.users.filter( user => user.id !== props.user.id)
 
     const formContainerStyling = {
-        maxWidth: '60%'
+        maxWidth: '45%'
     }
 
     const buttonStyling = {
         marginTop: '15px'
+    }
+
+    const textAreaStyle = {
+        minWidth: '65%',
+        height: '105px'
     }
 
 
@@ -30,7 +35,7 @@ function NewMessage(props) {
                 props.messagesSubmitHandler(event, recipient)
                 setRecipient('')
                 setMsgBody('')
-                }} styling={formContainerStyling}>
+                }} style={formContainerStyling}>
 
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label> From </Form.Label>
@@ -44,7 +49,7 @@ function NewMessage(props) {
                     </Form.Control>
                 </Form.Group>
 
-                <InputGroup>
+                <InputGroup style={textAreaStyle}>
                     <FormControl as="textarea" aria-label="With textarea" value={msgBody} onChange={(event) => setMsgBody(event.target.value)}/>
                 </InputGroup>
 

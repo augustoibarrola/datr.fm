@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function SignUpForm(props) {
 
@@ -35,6 +35,10 @@ function SignUpForm(props) {
                 </div>
 
             </form>
+
+            <Link to="/lastfm"> Sign In With Last.fm </Link>
+              {/* make above the sign in button to last.fm sign in  */}
+
         </div>
     )
 }

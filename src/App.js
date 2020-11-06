@@ -11,17 +11,22 @@ import UserProfileComponent from './Components/UserProfileComponent.js'
 import UserProfileWidget from './Components/UserProfileWidget.js'
 import Messages from './Containers/Messages.js'
 import NewMessage from './Components/NewMessage.js'
+import Lastfm from './Components/Lastfm.js'
 
 const App = () => {
 
   const usersAPI_URL = 'http://localhost:3000/users/'
   const heartsAPI_URL = 'http://localhost:3000/hearts/'
   const messagesAPI_URL = 'http://localhost:3000/messages/'
+  const key = process.env.REACT_APP_LASTFM_KEY
+
 
   const [users, setUsers] = useState([])
   const [presentUser, setPresentUser] = useState('')
   const [presentUserSentMessages, setPresentUserSentMessages ] = useState('')
   const [presentToken, setPresentToken] = useState('')
+  const [lastfmReturnData, setLastfmReturnData ] = useState('')
+
 
 
 
@@ -133,6 +138,13 @@ const App = () => {
 }
 
 
+  // const lastFmAuth = () => {
+  //   fetch(`http://www.last.fm/api/auth/${process.env.REACT_APP_LASTFM_KEY}`, {
+  //     method: 'GET'
+  //   })
+  // }
+
+
   useEffect(() =>  {
     let token = localStorage.getItem("token")
     if (token) {
@@ -145,18 +157,25 @@ const App = () => {
       .then(response => response.json())
       .then(users=> setUsers(users) )
     }
+
+    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=OtsuguaalorrabI&api_key=${key}&format=json`)
+    .then( response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('error');
+    })
+    .then(data => console.log(data))
+    .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
+
   }, [])
 
 
   return (
     <div>
-      {console.log("presentUser", presentUser)}
-      {console.log("presentUserSentMessages", presentUserSentMessages)}
-      {console.log("users", users)}
       <UserNavBar user={presentUser} users={users} />
       <div className="ux-body">
         {/* {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> } */}
-        
          <Switch>
 
             <Route path="/users/:id" render={(routerProps) =>{
@@ -165,6 +184,9 @@ const App = () => {
             }}/>
 
             <Route path="/users" render={() => < UsersIndex user={presentUser} users={users} likedButton={likedButton}/> }/>
+
+            <Route path="/lastfm" render={() => < Lastfm user={presentUser} /> }/>
+            {/* Make above for last.fm sign in route.  */}
 
             <Route path="/signin" render={() =>  < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
 
@@ -178,7 +200,7 @@ const App = () => {
 
             <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler}/> : null } />
 
-            <Route path="/" render={() => presentUser ? < UserProfileComponent user={presentUser} users={users} likedButton={likedButton}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < UserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 

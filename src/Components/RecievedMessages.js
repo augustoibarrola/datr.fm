@@ -3,9 +3,6 @@ import { Row, Tab, Col, ListGroup  } from 'react-bootstrap'
 
 
 const RecievedMessages = (props) => {
-    console.log("PROPS AT RECIEVES MESSAGES => ", props.user.messages_recieved)
-
-    const [ userMessages, setUserMessages ] = useState(props.presentUserSentMessages)
 
     return(
       <div>
