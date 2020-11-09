@@ -25,35 +25,46 @@ console.log("lovedTracks => ", lovedTracks)
         border: 'none'
       }
 
+      const imageStyle = {
+        maxWidth: '500px'
+      }
+
+      const topArtistStyling = {
+        border: '10px',
+        color: 'red'
+      }
+
     return(
-        <div className="user-card"> 
+        <div>
+          <div className="user-card"> 
 
-            <Card style={cardStyling}>
-                    <Col xs={6} md={4}>
-                      <Image className="user-profile-component-circled-image" src={props.user.image_url} roundedCircle />
-                    </Col>
-                    <Card.Body>
-                    <Card.Title>{props.user.username}</Card.Title>
-                    <Card.Text>
-                      {props.user.description}
-                    </Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
-                    <button id={props.user.id} onClick={(event) => props.likedButton(event)}>Like</button>
-                    </Card.Footer>
-                </Card>
+              <Card style={cardStyling}>
+                      <Col xs={6} md={4}>
+                        <Image className="user-profile-component-circled-image" style={imageStyle} src={props.user.image_url} roundedCircle />
+                      </Col>
+                      <Card.Body>
+                      <Card.Title>{props.user.username}</Card.Title>
+                      <Card.Text>
+                        {props.user.description}
+                      </Card.Text>
+                      </Card.Body>
+                      <button id={props.user.id} onClick={(event) => props.likedButton(event)}>like me</button>
+              </Card>
 
 
-              <Nav defaultActiveKey="link-2" className="flex-column">
-                {/* <Nav.Link href="/home">Active</Nav.Link> */}
-                <Nav.Link eventKey="top-artists"> Top Artists </Nav.Link>
-                  <h2>Top Artists: </h2>
-                    <CardDeck>
-                      {props.lastfmData.lovedtracks.track.map( track => <TopArtistWidget track={track} /> ) }
-                    </CardDeck>
-                <Nav.Link eventKey="link-2">Link</Nav.Link>
-                {/* <Nav.Link eventKey="disabled" disabled>Disabled</Nav.Link> */}
-              </Nav>
+          </div>
+          <div style={topArtistStyling}> 
+                <Nav defaultActiveKey="link-2" className="flex-column">
+                  {/* <Nav.Link href="/home">Active</Nav.Link> */}
+                  <Nav.Link eventKey="top-artists"> Top Artists </Nav.Link>
+                    <h2>Top Artists: </h2>
+                      <CardDeck>
+                        {props.lastfmData.lovedtracks.track.map( track => <TopArtistWidget track={track} /> ) }
+                      </CardDeck>
+                  <Nav.Link eventKey="link-2">Link</Nav.Link>
+                  {/* <Nav.Link eventKey="disabled" disabled>Disabled</Nav.Link> */}
+                </Nav>
+          </div>          
         </div>
     )
 }

@@ -179,6 +179,8 @@ const App = () => {
       <UserNavBar user={presentUser} users={users} />
       <div className="ux-body">
         {/* {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> } */}
+
+                         <a href="http://localhost:8888"> Login with Spotify </a>
          <Switch>
 
             <Route path="/users/:id" render={(routerProps) =>{
@@ -186,12 +188,12 @@ const App = () => {
               return  < UserProfileComponent {...routerProps} user={idUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} />
             }}/>
 
-            <Route path="/users" render={() => < UsersIndex user={presentUser} users={users} likedButton={likedButton}/> }/>
+            <Route path="/users" render={() => presentUser ? < UsersIndex user={presentUser} users={users} likedButton={likedButton}/>  :  <Redirect to="/"/> }/>
 
             <Route path="/lastfm" render={() => < Lastfm user={presentUser} /> }/>
             {/* Make above for last.fm sign in route.  */}
 
-            <Route path="/signin" render={() =>  < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
+            <Route path="/signin" render={() =>  presentUser ? <Redirect to="/"/> : < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
 
             <Route path="/signup" render={() =>  presentUser ? <Redirect to="/" />  : < SignUpForm signUpSubmitHandler={signUpSubmitHandler} /> } />
             

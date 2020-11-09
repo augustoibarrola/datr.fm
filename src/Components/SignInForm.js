@@ -9,6 +9,18 @@ function SignInForm(props) {
         paddingBottom: '15px',
     }
 
+    const notMemberStyling = {
+        paddingTop: '20px',
+        display: 'flex', 
+        justifyContent: 'space-around',
+        flexDirection: 'column',
+        maxWidth: '20%'
+    }
+
+    const notMemberStylingH4 = {
+        paddingBottom: '6px'
+    }
+
     return(
         <div>
             <div style={signInHeadingStyling}> 
@@ -36,7 +48,7 @@ function SignInForm(props) {
                             
                         </Col>
                         
-                            <Col xs="auto">
+                        <Col xs="auto">
                             <Form.Label htmlFor="inlineFormInput" srOnly>
                             Password
                             </Form.Label>
@@ -50,11 +62,17 @@ function SignInForm(props) {
                         </Col>
 
                         <Col xs="auto">
-                            <Button type="submit" className="mb-2">
+                            <Button type="submit" className="mb-2" variant="outline-primary">
                             Log In
                             </Button>
                         </Col>
                     </Form.Row>
+                    <div className="not-a-member" style={notMemberStyling}>
+                        <h4 style={notMemberStylingH4}> Not A Member? </h4>
+                        <NavLink to="/signup">
+                            <Button variant="outline-primary"> Let's Change That </Button>{' '}
+                        </NavLink>
+                    </div>
                 </Form>
             </div>
         </div>
