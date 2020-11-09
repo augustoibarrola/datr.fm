@@ -29,13 +29,9 @@ const UserProfileWidget = (props) => {
                     <Card.Img variant="top" src={props.user.image_url} />
                     <Card.Body>
                     <Link to={`/users/${props.user.id}`} ><Card.Title>{props.user.username}</Card.Title></Link>
-                    <Card.Text>
-                      {props.user.description}
-                    </Card.Text>
                     </Card.Body>
                     <Card.Footer>
-                    <small className="text-muted">Last updated 3 mins ago</small>
-                    <button id={props.user.id} onClick={(event) => props.likedButton(event)}>Like</button>
+                    {/* <button id={props.user.id} onClick={(event) => props.likedButton(event)}>Like</button> */}
                     </Card.Footer>
                 </Card>
         </div>

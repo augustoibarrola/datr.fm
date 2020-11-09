@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardDeck, Col, Image } from 'react-bootstrap'
+import { Nav, Card, CardDeck, Col, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import TopArtistWidget from './TopArtistWidget'
 
 const UserProfileComponent = (props) => {
 console.log(props)
-    const [topArtists, setTopArtists] = useState(props.lastfmData.topartists.artist)
-
+    const [lovedTracks, setlovedTracks] = useState(props.lastfmData.lovedtracks.track)
+console.log("lovedTracks => ", lovedTracks)
 
     useEffect(() => {
         // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=OtsuguaalorrabI&api_key=${key}&format=json`)
@@ -43,10 +43,17 @@ console.log(props)
                     </Card.Footer>
                 </Card>
 
-              <h2>Top Artists: </h2>
-              <CardDeck>
-                {topArtists.map( artist => <TopArtistWidget artist={artist} /> ) }
-              </CardDeck>
+
+              <Nav defaultActiveKey="link-2" className="flex-column">
+                {/* <Nav.Link href="/home">Active</Nav.Link> */}
+                <Nav.Link eventKey="top-artists"> Top Artists </Nav.Link>
+                  <h2>Top Artists: </h2>
+                    <CardDeck>
+                      {props.lastfmData.lovedtracks.track.map( track => <TopArtistWidget track={track} /> ) }
+                    </CardDeck>
+                <Nav.Link eventKey="link-2">Link</Nav.Link>
+                {/* <Nav.Link eventKey="disabled" disabled>Disabled</Nav.Link> */}
+              </Nav>
         </div>
     )
 }

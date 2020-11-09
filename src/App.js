@@ -18,7 +18,7 @@ const App = () => {
   const usersAPI_URL = 'http://localhost:3000/users/'
   const heartsAPI_URL = 'http://localhost:3000/hearts/'
   const messagesAPI_URL = 'http://localhost:3000/messages/'
-  const key = process.env.REACT_APP_LASTFM_KEY
+  const lastfmKey = process.env.REACT_APP_LASTFM_KEY
 
 
   const [users, setUsers] = useState([])
@@ -158,14 +158,17 @@ const App = () => {
       .then(users=> setUsers(users) )
     }
 
-    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=OtsuguaalorrabI&api_key=${key}&format=json`)
+    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${key}&format=json`)
+    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${lastfmKey}&format=json`)
+    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=rj&api_key=${lastfmKey}&format=json`)
+    
     .then( response => {
         if (response.ok) {
             return response.json();
         }
         throw new Error('error');
     })
-    .then(data => console.log(data))
+    .then(data => setLastfmReturnData(data))
     .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
 
   }, [])
@@ -180,7 +183,7 @@ const App = () => {
 
             <Route path="/users/:id" render={(routerProps) =>{
               const idUser = users.find(user => user.id == routerProps.match.params.id )
-              return  < UserProfileComponent {...routerProps} user={idUser} users={users} likedButton={likedButton}/>
+              return  < UserProfileComponent {...routerProps} user={idUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} />
             }}/>
 
             <Route path="/users" render={() => < UsersIndex user={presentUser} users={users} likedButton={likedButton}/> }/>
