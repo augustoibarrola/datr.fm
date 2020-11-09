@@ -56,9 +56,10 @@ const App = () => {
       event.preventDefault()
       let name = event.target[0].value
       let userName = event.target[1].value
-      let email = event.target[2].value
+      let imageUrl = event.target[2].value
+      let email = event.target[3].value
       let description = ''
-      let password = event.target[3].value
+      let password = event.target[4].value
 
       fetch(usersAPI_URL, {
           method: 'POST', 
@@ -70,10 +71,19 @@ const App = () => {
           body: JSON.stringify({ 
               user: {
                   name: name,
+                  // age: 
                   username: userName,
                   email: email,
                   description: description,
+                  image_url: imageUrl,
                   password: password
+                  // t.string "name"
+                  // t.integer "age"
+                  // t.string "username"
+                  // t.string "email"
+                  // t.text "description"
+                  // t.string "image_url"
+                  // t.string "password_digest"
               }
           })
       })
@@ -82,6 +92,7 @@ const App = () => {
         console.log("NEW_USER => ", newUser)
         localStorage.setItem("token", newUser.jwt)
         setPresentUser(newUser.user)
+        // setUsers(newUser.users)
       })
   }
 
@@ -160,16 +171,16 @@ const App = () => {
 
     // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${key}&format=json`)
     // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${lastfmKey}&format=json`)
-    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=rj&api_key=${lastfmKey}&format=json`)
+    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=rj&api_key=${lastfmKey}&format=json`)
     
-    .then( response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('error');
-    })
-    .then(data => setLastfmReturnData(data))
-    .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
+    // .then( response => {
+    //     if (response.ok) {
+    //         return response.json();
+    //     }
+    //     throw new Error('error');
+    // })
+    // .then(data => setLastfmReturnData(data))
+    // .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
 
   }, [])
 

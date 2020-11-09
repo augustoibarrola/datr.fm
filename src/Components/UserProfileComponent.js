@@ -5,8 +5,8 @@ import TopArtistWidget from './TopArtistWidget'
 
 const UserProfileComponent = (props) => {
 console.log(props)
-    const [lovedTracks, setlovedTracks] = useState(props.lastfmData.lovedtracks.track)
-console.log("lovedTracks => ", lovedTracks)
+    // const [lovedTracks, setlovedTracks] = useState(props.lastfmData.lovedtracks.track)
+// console.log("lovedTracks => ", lovedTracks)
 
     useEffect(() => {
         // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=OtsuguaalorrabI&api_key=${key}&format=json`)
@@ -59,9 +59,9 @@ console.log("lovedTracks => ", lovedTracks)
                   <Nav.Link eventKey="top-artists"> Top Artists </Nav.Link>
                     <h2>Top Artists: </h2>
                       <CardDeck>
-                        {props.lastfmData.lovedtracks.track.map( track => <TopArtistWidget track={track} /> ) }
+                        {/* {props.lastfmData.lovedtracks.track.map( track => <TopArtistWidget track={track} /> ) } */}
                       </CardDeck>
-                  <Nav.Link eventKey="link-2">Link</Nav.Link>
+                  {/* <Nav.Link eventKey="link-2">Link</Nav.Link> */}
                   {/* <Nav.Link eventKey="disabled" disabled>Disabled</Nav.Link> */}
                 </Nav>
           </div>          

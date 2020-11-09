@@ -27,7 +27,7 @@ function SignInForm(props) {
                 <h2> Sign In Please</h2>
             </div>
             <div>
-            <Form onSubmit={(event) => props.signInSubmitHandler(event)}>
+                <Form onSubmit={(event) => props.signInSubmitHandler(event)}>
                     <Form.Row className="align-items-center">
 
                         <Col xs="auto">
