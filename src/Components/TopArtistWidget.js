@@ -1,23 +1,27 @@
 import React from 'react'
 import { Card, CardDeck } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const TopArtistWidget = ( props ) => {
-    console.log(props)
+    console.log(props) //=>> an individual album with .artist(object, .mbid, ["#text"]), .name, .playcount, .url, 
+    
+    const artistCardStyling = {
+        padding: '15px',
+    }
     return(
     // <h1>hello </h1>
-        <div className="user-card"> 
+        <div styling={artistCardStyling}> 
              {/* <h3>{props.user.name}</h3>
              <h4>{props.user.username}</h4> */}
-             <Card>
-                     <Card.Img variant="top" src={props.track.image[3]["#text"]} />
+             <Card styling={artistCardStyling}>
                      <Card.Body>
-                     <Card.Title>{props.track.name}</Card.Title>
+                     <Card.Title> <a href={props.album.url}> {props.album.name} </a> </Card.Title>
                      <Card.Text>
-                        {/*  */}
+                        by {props.album.artist["#text"]}
                      </Card.Text>
                      </Card.Body>
                      <Card.Footer>
-                     {/* <small className="text-muted"> {props.album.playcount} plays </small> */}
+                        <small className="text-muted"> {props.album.playcount} plays </small>
                      </Card.Footer>
                  </Card>
          </div>
