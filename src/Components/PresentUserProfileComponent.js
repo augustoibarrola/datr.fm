@@ -31,7 +31,7 @@ console.log(props)
 
       const weeklyAlbumsDiv = {
         border: '10px',
-        // color: 'red'
+        display: 'flex',
       }
 
       const userCardStyling = {
@@ -93,8 +93,9 @@ console.log(props)
 
           </div>
 
+          {/* Last.fm weekly albums fetch request data */}
+          <h2>Weekly Albums: </h2>
           <div style={weeklyAlbumsDiv}> 
-            <h2>Weekly Albums: </h2>
             <CardDeck>
               {props.lastfmData.weeklyalbumchart.album.map( album => <TopArtistWidget album={album} /> ) }
             </CardDeck>
