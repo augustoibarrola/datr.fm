@@ -28,7 +28,7 @@ const UserNavBar = (props) => {
     return(
         <div>
              <ReactBootStrap.Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-             <ReactBootStrap.Navbar.Brand ><NavLink to="/" > Datr.fm | {props.user.name}  </NavLink> </ReactBootStrap.Navbar.Brand>
+             <ReactBootStrap.Navbar.Brand ><NavLink to="/" > Datr.fm | {props.user.username}  </NavLink> </ReactBootStrap.Navbar.Brand>
              <ReactBootStrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
              <ReactBootStrap.Navbar.Collapse id="responsive-navbar-nav">
                  <ReactBootStrap.Nav className="mr-auto">

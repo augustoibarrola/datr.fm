@@ -19,14 +19,13 @@
     padding-right: 0;
     padding-left: 25px;
     width: 90vw;
-
     
   }
 
-  .user-card {
+  /* .user-card {
     max-width: 300px;
     padding-bottom: 20px;
-  }
+  } */
 
   .user-profile-component-circled-image {
     max-width: 275px;

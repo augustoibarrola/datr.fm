@@ -96,26 +96,57 @@ const App = () => {
       })
   }
 
-  const likedButton = (event) => {
-    console.log("presentUser id ==>", presentUser)
-    console.log("event.target ==>", event.target)
+  const getIndex = (likedUsers) => {
+    for( let i = 0; i < likedUsers.length; i++) {
+       if( likedUsers[i] === true) {
+           return i;
+       }
+    }
+  }
 
+  const likedButton = (event) => {
+
+    console.log("presentUser liking someone ==>", presentUser)
+    console.log("person being liked ==>", event.target)
+
+    let liker_id = presentUser.id
+    let liked_id = event.target.id
+    // let likedUsers = presentUser.liked_users.map(hearts => hearts.liked_id == liked_id )
+    // hearts have a liker and a liked -> return true for every heart where the liked_id is the same as the liked_id coming in
+    // i.e. bring back true whenever new liked_user is already present in one of the hearts objects of the present user 
+    let likedUsers = presentUser.liked_users.filter(hearts => hearts.liked_id == liked_id )
     let token = localStorage.getItem("token")
 
-    fetch('http://localhost:3000/hearts', {
-      method: 'POST', 
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        "content-type": "application/json",
-        "accepts": "application/json"
-      }, 
-      body: JSON.stringify({
-        liker_id: presentUser.id,
-        liked_id: event.target.id
-       })
-    })
-    .then(response => response.json())
-    .then(console.log)
+    console.log(" liked users in ", likedUsers)
+
+    // if (likedUsers) {
+    //   console.log("HEART AT THIS INDEX SHOULD BE DELETED => ", likedUsers[0].id)
+    //     fetch(`http://localhost:3000/hearts/${likedUsers[0].id}`, {
+    //     method: 'DELETE', 
+    //     headers: {
+    //       'Authorization': `Bearer ${token}`,
+    //       "content-type": "application/json",
+    //       "accepts": "application/json"
+    //     }
+    //   })
+    //   .then(response => response.json())
+    //   .then(console.log)
+    // } else if {
+      fetch('http://localhost:3000/hearts', {
+        method: 'POST', 
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          "content-type": "application/json",
+          "accepts": "application/json"
+        }, 
+        body: JSON.stringify({
+          liker_id: presentUser.id,
+          liked_id: event.target.id
+        })
+      })
+      .then(response => response.json())
+      .then(console.log)
+    // }
   }
 
   const messagesSubmitHandler = (event, recipient) => {
@@ -170,18 +201,16 @@ const App = () => {
     }
 
     // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${key}&format=json`)
-    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${lastfmKey}&format=json`)
-    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=rj&api_key=${lastfmKey}&format=json`)
-    
-    // .then( response => {
-    //     if (response.ok) {
-    //         return response.json();
-    //     }
-    //     throw new Error('error');
-    // })
-    // .then(data => setLastfmReturnData(data))
-    // .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
-
+    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${lastfmKey}&format=json`)
+    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=OtsuguaalorrabI&api_key=${lastfmKey}&format=json`)
+    .then( response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('error');
+    })
+    .then(data => setLastfmReturnData(data))
+    .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
   }, [])
 
 
@@ -191,7 +220,7 @@ const App = () => {
       <div className="ux-body">
         {/* {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> } */}
 
-                         <a href="http://localhost:8888"> Login with Spotify </a>
+                         {/* <a href="http://localhost:8888"> Login with Spotify </a> */}
          <Switch>
 
             <Route path="/users/:id" render={(routerProps) =>{

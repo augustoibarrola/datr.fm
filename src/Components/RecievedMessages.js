@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Tab, Col, ListGroup  } from 'react-bootstrap'
+import { Row, Tab, Col, ListGroup, Image } from 'react-bootstrap'
 
 
 const RecievedMessages = (props) => {
+
+    const imageStyle = {
+        maxWidth: '50px',
+        margin: '5px',
+    }
 
     return(
       <div>
@@ -12,8 +17,8 @@ const RecievedMessages = (props) => {
                 
                     <Col sm={4}>
                     
-                    <ListGroup>
-                        {props.user.messages_recieved ? props.user.messages_recieved.map(message =>  <ListGroup.Item action href={`#${message.id}`}>{message.sender_id}</ListGroup.Item>) : null }
+                    <ListGroup style={{'max-height': 'calc(100vh - 210px)', 'overflow-y': 'auto'}}>
+                        {props.user.messages_recieved ? props.user.messages_recieved.map(message =>  <ListGroup.Item action href={`#${message.id}`}> <Image className="user-profile-component-circled-image" style={imageStyle} src={props.users.find( user => user.id == message.sender_id).image_url} roundedCircle /> { props.users.find( user => user.id == message.sender_id).username }</ListGroup.Item>) : null }
                     </ListGroup>
                     
                     </Col>
@@ -21,7 +26,7 @@ const RecievedMessages = (props) => {
                     <Col sm={8}>
                     
                     <Tab.Content>
-                        {props.user.messages_recieved ? props.user.messages_recieved.map(message =>  <Tab.Pane eventKey={`#${message.id}`}> {message.message_body} </Tab.Pane>) : null}
+                        {props.user.messages_recieved ? props.user.messages_recieved.map(message =>  <Tab.Pane eventKey={`#${message.id}`}>  {message.message_body} </Tab.Pane>) : null}
                     </Tab.Content>
                 
                     </Col>

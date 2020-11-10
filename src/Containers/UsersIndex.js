@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import UserProfileComponent from '../Components/UserProfileComponent.js'
-import { CardDeck } from 'react-bootstrap'
+import { CardDeck, InputGroup, FormControl } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
 import UserProfileWidget from '../Components/UserProfileWidget.js'
 
 const UsersIndex = (props) => {
 
-    const [searchTerm, setSearchTerm] = useState("")
+    const [searchTerm, setSearchTerm] = useState('')
     const [searchResults, setSearchResults] = useState([])
 
     // const mapUsers = (props) => {
@@ -25,20 +25,26 @@ const UsersIndex = (props) => {
         <div>
             <div className="search-bar-div">
                 {/* search bar should go here  */}
-                <input type="text" placeholder="Looks for Love" onChange={handleSearchBarChange} />
-            </div>
-
-            <div className="search-results-div">
-                <ul>
-                    { searchResults.map( user =>  <UserProfileWidget user={user} likedButton={props.likedButton}/> ) }
-                    {console.log("search results => ", searchResults)}
-                </ul>
+                {/* <input type="text" placeholder="Look for Love" onChange={handleSearchBarChange} /> */}
+                <InputGroup className="mb-3">
+                    <InputGroup.Prepend>
+                        <InputGroup.Text>Looking for Someone?</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl type="text" placeholder="Look for Love" onChange={handleSearchBarChange}  />
+                </InputGroup>
             </div>
 
             <div className="card-deck">
-                <CardDeck>
+                <div>
+                    <CardDeck>
+                            { searchResults ? searchResults.map( user =>  <UserProfileWidget user={user} likedButton={props.likedButton}/> ) : null  }
+                            {console.log("search results => ", searchResults)}
+                    </CardDeck>
+                </div>
+
+                {/* <CardDeck>
                         {props.users.map( user =>  <UserProfileWidget user={user} likedButton={props.likedButton}/>)}
-                </CardDeck>
+                </CardDeck> */}
             </div>
 
         </div>
