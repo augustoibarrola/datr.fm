@@ -20,11 +20,16 @@ console.log("PROPS AT WIDGET => ", props)
       //   .then(response => response.json())
       //   .then(res => console.log("RESPONSE =>>", res))
       // }
+
+      const userCardStyling = {
+        maxWidth: '300px',
+        paddingBottom: '20px',
+        display: 'flex', 
+        flexDirection: 'row'
+      }
       
     return(
-        <div className="user-card"> 
-            {/* <h3>{props.user.name}</h3>
-            <h4>{props.user.username}</h4> */}
+        <div className="user-card" style={userCardStyling}> 
             <Card>
                     <Card.Img variant="top" src={props.user.image_url} />
                     <Card.Body>

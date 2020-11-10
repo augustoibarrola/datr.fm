@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import * as ReactBootStrap from 'react-bootstrap'
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom'
-import UserProfile from '../Containers/UserProfile'
+import UserProfile from './UserProfile'
 import UsersIndex from '../Containers/UsersIndex'
 import SignInForm from './SignInForm'
 import SignUpForm from './SignUpForm'

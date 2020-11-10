@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import UserProfileComponent from '../Components/UserProfileComponent.js'
+import PresentUserProfileComponent from '../Components/PresentUserProfileComponent.js'
 import { CardDeck, InputGroup, FormControl } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
 import UserProfileWidget from '../Components/UserProfileWidget.js'
@@ -21,9 +21,14 @@ const UsersIndex = (props) => {
     const handleSearchBarChange = (event) => {
         setSearchTerm(event.target.value)
     }
+
+    const searchBarStyling = {
+        paddingTop: '30px',
+    }
+
     return(
         <div>
-            <div className="search-bar-div">
+            <div className="search-bar-div" style={searchBarStyling}>
                 {/* search bar should go here  */}
                 {/* <input type="text" placeholder="Look for Love" onChange={handleSearchBarChange} /> */}
                 <InputGroup className="mb-3">

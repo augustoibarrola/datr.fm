@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import UserProfile from '../Containers/UserProfile.js'
+import UserProfile from './UserProfile.js'
 import { NavLink, Redirect } from 'react-router-dom'
 import { Form, Col, InputGroup, FormControl, Button  } from 'react-bootstrap'
 
@@ -87,28 +87,3 @@ function SignInForm(props) {
 }
 
 export default SignInForm
-// imported in ../App.js
-
-//  <h2>Sign in Please</h2>
-
-//             <form onSubmit={(event) => props.signInSubmitHandler(event)}>
-//                 <div>
-//                     <label>UserName:</label>
-//                     <input />
-//                 </div>
-
-
-//                 <div>
-//                     <label>Password:</label>
-//                     <input type="password" />
-//                 </div>
-
-//                 <div>
-//                         <input type="submit"/> 
-//                 </div>
-
-//             </form>
-
-//             <div>
-//                 <NavLink to="/signup" >Sign Up</NavLink>
-//             </div> 

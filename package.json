@@ -13,8 +13,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "rsuite": "^4.8.4",
-    "web-vitals": "^0.2.4",
-    "spotify-web-api-js": "^0.22.1"
+    "semantic-ui-react": "^2.0.1",
+    "spotify-web-api-js": "^0.22.1",
+    "web-vitals": "^0.2.4"
   },
   "scripts": {
     "start": "react-scripts start",

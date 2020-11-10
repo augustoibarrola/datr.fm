@@ -3,11 +3,11 @@ import './App.css';
 import SignInForm from './Components/SignInForm.js'
 import SignUpForm from './Components/SignUpForm.js'
 import UserNavBar from './Components/UserNavBar.js'
-import UserProfile from './Containers/UserProfile.js'
+import UserProfile from './Components/UserProfile.js'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Welcome from './Components/Welcome.js'
 import UsersIndex from './Containers/UsersIndex.js'
-import UserProfileComponent from './Components/UserProfileComponent.js'
+import PresentUserProfileComponent from './Components/PresentUserProfileComponent.js'
 import UserProfileWidget from './Components/UserProfileWidget.js'
 import Messages from './Containers/Messages.js'
 import NewMessage from './Components/NewMessage.js'
@@ -176,15 +176,55 @@ const App = () => {
      .then(response => response.json())
      .then(data => {
          console.log("POST_REQUEST_MESSAGES_RESPONSE => ", data)
+         console.log("present user when new message comes back from fetch", presentUser)
+         setPresentUserSentMessages(presentUser.messages_sent.push(data.new_message))
      })
-}
+  }
+
+  const directMessageHandler = (event, messageBody) => {
+    event.preventDefault()
+    let token = localStorage.getItem("token")
 
 
-  // const lastFmAuth = () => {
-  //   fetch(`http://www.last.fm/api/auth/${process.env.REACT_APP_LASTFM_KEY}`, {
-  //     method: 'GET'
-  //   })
-  // }
+    fetch(messagesAPI_URL, {
+      method: 'POST', 
+      headers: {
+          'Authorization': `Bearer ${token}`,
+          "content-type": "application/json",
+          "accepts": "application/json"
+      },
+      body: JSON.stringify({
+          sender_id: presentUser.id,
+          recipient_id: event.target.id,
+          message_body: messageBody
+      })
+  })
+  .then(response => response.json())
+  .then(data => {
+      setPresentUserSentMessages(presentUser.messages_sent.push(data.new_message))
+  })
+  }
+
+  const userUpdateHandler = (event, userDescription) => {
+    event.preventDefault()
+    presentUser.description = userDescription
+
+    let token = localStorage.getItem("token")
+
+     fetch(usersAPI_URL + event.target.id, {
+       method: 'PATCH', 
+       headers: {
+         'Authorization': `Bearer ${token}`,
+         "content-type": "application/json",
+         "accepts": "application/json"
+       },
+       body: JSON.stringify( presentUser )
+     })
+     .then(response => response.json())
+     .then(data => {
+       console.log("UPDATED USER => ", data )
+     })
+  }
 
 
   useEffect(() =>  {
@@ -223,9 +263,9 @@ const App = () => {
                          {/* <a href="http://localhost:8888"> Login with Spotify </a> */}
          <Switch>
 
-            <Route path="/users/:id" render={(routerProps) =>{
+            <Route path="/users/:id" render={(routerProps) => {
               const idUser = users.find(user => user.id == routerProps.match.params.id )
-              return  < UserProfileComponent {...routerProps} user={idUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} />
+              return  < UserProfile {...routerProps} user={idUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} directMessageHandler={directMessageHandler} /> 
             }}/>
 
             <Route path="/users" render={() => presentUser ? < UsersIndex user={presentUser} users={users} likedButton={likedButton}/>  :  <Redirect to="/"/> }/>
@@ -243,9 +283,9 @@ const App = () => {
                return presentUser ? <Redirect to="/" /> : <Redirect to="/" />
             }} />
 
-            <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler}/> : null } />
+            <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> : null } />
 
-            <Route path="/" render={() => presentUser ? < UserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 

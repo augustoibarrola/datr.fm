@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { Nav, Card, CardDeck, Col, Image } from 'react-bootstrap'
+import { Nav, Card, CardDeck, Col, Image, Button, Modal } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import TopArtistWidget from './TopArtistWidget'
 
-const UserProfileComponent = (props) => {
+const PresentUserProfileComponent = (props) => {
 console.log(props)
-    // const [lovedTracks, setlovedTracks] = useState(props.lastfmData.lovedtracks.track)
-// console.log("lovedTracks => ", lovedTracks)
 
-    useEffect(() => {
-        // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=OtsuguaalorrabI&api_key=${key}&format=json`)
-        // .then( response => {
-        //     if (response.ok) {
-        //         return response.json();
-        //     }
-        //     throw new Error('error');
-        // })
-        // .then(data => setLastfmReturnData(data))
-        // .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
-    }, [])
+      const [showModal, setShowModal] = useState(false)
+      const [userDescription, setUserDescription] = useState(props.user.description)
+      
+      const handleModalShow = () => {
+        setShowModal(true)
+      }
 
+      const handleModalClose = () => {
+        setShowModal(false)
+      }
+
+      const descriptionChangeHandler = (event) => {
+        setUserDescription(event.target.value)
+      }
 
       const cardStyling = {
         border: 'none'
@@ -61,9 +61,36 @@ console.log(props)
                 </button>
               </Card.Body>
             </div>
+            
+            <div>{/* button that adds description with modal */}
+              <Button variant="primary" onClick={handleModalShow}>
+                Lil' Something About Me
+              </Button>
 
-                <Card.Text> {props.user.description} </Card.Text>
-                {/* button that adds description */}
+              <Modal show={showModal} onHide={handleModalClose}>
+
+                <Modal.Header closeButton> 
+                  <Modal.Title> What Are You Like? </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                  <input type="text" value={ userDescription } onChange={ descriptionChangeHandler } />
+                </Modal.Body>
+
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={ handleModalClose }>
+                    Close
+                  </Button>
+                  <Button id={props.user.id} variant="primary" onClick={ (event) => props.userUpdateHandler(event, userDescription) } >
+                    Save Changes
+                  </Button>
+                </Modal.Footer>
+
+              </Modal>
+
+            </div>
+              <Card.Text> {props.user.description} </Card.Text>
+
           </div>
 
           <div style={weeklyAlbumsDiv}> 
@@ -77,8 +104,5 @@ console.log(props)
     )
 }
 
-export default UserProfileComponent
+export default PresentUserProfileComponent
 // imported in ../Containers/UsersIndex.js
-
-
-// this component should show brief previews of all users (think user cards)
