@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Switch, Redirect, Link } from 'react-router-dom'
-import { Image, Card, Button, Modal } from 'react-bootstrap'
+import { Image, Card, Button, Modal, Form } from 'react-bootstrap'
 import Messages from '../Containers/Messages.js'
 
 import UserNavBar from './UserNavBar.js'
@@ -28,19 +28,6 @@ const UserProfile = (props) => {
     const messageBodyHandler = (event) => {
         setMessageBody(event.target.value)
     }
-
-
-
-
-    // return(
-    //     <div>
-    //         <h2> {user.user.name}'s User Profile Page</h2>
-    //             <p> Username: {user.user.username}</p>
-    //             <p> Description: {user.user.description}</p>
-    //         <div>
-    //         </div>
-    //     </div>
-    //     )
 
     const userCardStyling = {
         maxWidth: '300px',
@@ -97,14 +84,24 @@ const UserProfile = (props) => {
                 </Modal.Header>
 
                 <Modal.Body>
-                  <input type="text" value={ messageBody } onChange={ messageBodyHandler } />
+                  <Form.Label >From:  </Form.Label>
+                  <Form.Control type="text" placeholder={`${props.presentUser.username} (Me)`} disabled />
+                  <Form.Label >To:  </Form.Label>
+                  <Form.Control type="text" placeholder={props.user.username} disabled />
+                  <div className="text-input-div" style={ { paddingTop: 'inherit' } }>
+                    <input type="textarea" value={ messageBody } onChange={ messageBodyHandler } style={ { width: '100%', height: '235px', paddingBottom: '185px', paddingLeft: '10px', border: 'gray' } } />
+                  </div>
                 </Modal.Body>
 
                 <Modal.Footer>
                   <Button variant="secondary" onClick={ handleModalClose }>
                     Close
                   </Button>
-                  <Button id={props.user.id} variant="primary" onClick={ (event) => props.directMessageHandler(event, messageBody) } >
+                  <Button id={props.user.id} variant="primary" onClick={ (event) => {
+                    props.directMessageHandler(event, messageBody)
+                    setMessageBody('')
+                    handleModalClose()
+                  } } >
                     Send Message
                   </Button>
                 </Modal.Footer>

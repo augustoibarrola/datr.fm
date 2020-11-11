@@ -35,7 +35,6 @@ const UserNavBar = (props) => {
                      {/* <ReactBootStrap.NavDropdown title="Dropdown" id="collasible-nav-dropdown"> */}
                             <ReactBootStrap.NavDropdown.Item ><NavLink to="/users">Users</NavLink></ReactBootStrap.NavDropdown.Item>
                             <ReactBootStrap.NavDropdown.Item ><NavLink to="/messages">Messages</NavLink></ReactBootStrap.NavDropdown.Item>
-                            <ReactBootStrap.NavDropdown.Item ><NavLink to={`/users/${props.user.id}`}>User Profile</NavLink></ReactBootStrap.NavDropdown.Item>
                      {/* </ReactBootStrap.NavDropdown> */}
                  </ReactBootStrap.Nav>
                  <ReactBootStrap.Nav >

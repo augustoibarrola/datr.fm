@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import { CardDeck } from 'react-bootstrap'
+import TopArtistWidget from './TopArtistWidget.js'
 
 const Lastfm = (props) => {
 
-    // const [lastfmReturnData, setLastfmReturnData ] = useState({})
-    // const key = process.env.REACT_APP_LASTFM_KEY
-
-    // useEffect(() => {
-    //     fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=OtsuguaalorrabI&api_key=${key}&limit=1&nowplaying=true&format=json`)
-    //     .then( response => {
-    //         if (response.ok) {
-    //             return response.json();
-    //         }
-    //         throw new Error('error');
-    //     })
-    //     .then(data => setLastfmReturnData(data))
-    //     .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
-    // }, [])
-
+    const weeklyAlbumsDiv = {
+        border: '10px',
+        display: 'flex',
+      }
 
     return(
-        <h1>hello</h1>
+        <div>
+            <h2>Weekly Albums: </h2>
+            <div style={weeklyAlbumsDiv}> 
+                <CardDeck>
+                { props.lastfmData ? props.lastfmData.weeklyalbumchart.album.map( album => <TopArtistWidget album={album} /> ) : null }
+                </CardDeck>
+            </div>     
+        </div>
+
     )
 }
 

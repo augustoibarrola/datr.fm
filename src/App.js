@@ -27,9 +27,6 @@ const App = () => {
   const [presentToken, setPresentToken] = useState('')
   const [lastfmReturnData, setLastfmReturnData ] = useState('')
 
-
-
-
   const signInSubmitHandler = (event) => {
     event.preventDefault()
     let username = event.target[0].value
@@ -47,6 +44,7 @@ const App = () => {
     })
     .then(response => response.json())
     .then(data => {
+      console.log("data at sign in handler", data)
       localStorage.setItem("token", data.jwt)
       setPresentUser(data.user)
     })
@@ -105,9 +103,9 @@ const App = () => {
   }
 
   const likedButton = (event) => {
-
+    event.preventDefault()
     console.log("presentUser liking someone ==>", presentUser)
-    console.log("person being liked ==>", event.target)
+    console.log("person being liked ==>", event.target.id)
 
     let liker_id = presentUser.id
     let liked_id = event.target.id
@@ -117,36 +115,26 @@ const App = () => {
     let likedUsers = presentUser.liked_users.filter(hearts => hearts.liked_id == liked_id )
     let token = localStorage.getItem("token")
 
-    console.log(" liked users in ", likedUsers)
+    console.log(" liked users in liked handler", likedUsers)
 
-    // if (likedUsers) {
-    //   console.log("HEART AT THIS INDEX SHOULD BE DELETED => ", likedUsers[0].id)
-    //     fetch(`http://localhost:3000/hearts/${likedUsers[0].id}`, {
-    //     method: 'DELETE', 
-    //     headers: {
-    //       'Authorization': `Bearer ${token}`,
-    //       "content-type": "application/json",
-    //       "accepts": "application/json"
-    //     }
-    //   })
-    //   .then(response => response.json())
-    //   .then(console.log)
-    // } else if {
+    if (likedUsers.length > 0) {
+      console.log("you've already liked this user")
+    } else if ( likedUsers.length <= 0 ) {
       fetch('http://localhost:3000/hearts', {
-        method: 'POST', 
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          "content-type": "application/json",
-          "accepts": "application/json"
-        }, 
-        body: JSON.stringify({
-          liker_id: presentUser.id,
-          liked_id: event.target.id
-        })
-      })
-      .then(response => response.json())
-      .then(console.log)
-    // }
+       method: 'POST', 
+       headers: {
+         'Authorization': `Bearer ${token}`,
+         "content-type": "application/json",
+         "accepts": "application/json"
+       }, 
+       body: JSON.stringify({
+         liker_id: presentUser.id,
+         liked_id: event.target.id
+       })
+     })
+     .then(response => response.json())
+     .then(console.log)
+    }
   }
 
   const messagesSubmitHandler = (event, recipient) => {
@@ -182,7 +170,7 @@ const App = () => {
   }
 
   const directMessageHandler = (event, messageBody) => {
-    event.preventDefault()
+    // event.preventDefault()
     let token = localStorage.getItem("token")
 
 
@@ -226,6 +214,21 @@ const App = () => {
      })
   }
 
+  const lastfmHandler = (event) => {
+    event.preventDefault()
+    console.log("lastfmhandler success", event.target[0].value)
+    let lastfmUsername = event.target[0].value
+    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=${lastfmUsername}&api_key=${lastfmKey}&format=json`)
+    .then( response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('error');
+    })
+    .then(data => setLastfmReturnData(data))
+    .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
+  }
+
 
   useEffect(() =>  {
     let token = localStorage.getItem("token")
@@ -239,18 +242,6 @@ const App = () => {
       .then(response => response.json())
       .then(users=> setUsers(users) )
     }
-
-    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${key}&format=json`)
-    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${lastfmKey}&format=json`)
-    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=OtsuguaalorrabI&api_key=${lastfmKey}&format=json`)
-    .then( response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('error');
-    })
-    .then(data => setLastfmReturnData(data))
-    .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
   }, [])
 
 
@@ -258,14 +249,11 @@ const App = () => {
     <div>
       <UserNavBar user={presentUser} users={users} />
       <div className="ux-body">
-        {/* {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> } */}
-
-                         {/* <a href="http://localhost:8888"> Login with Spotify </a> */}
          <Switch>
 
             <Route path="/users/:id" render={(routerProps) => {
               const idUser = users.find(user => user.id == routerProps.match.params.id )
-              return  < UserProfile {...routerProps} user={idUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} directMessageHandler={directMessageHandler} /> 
+              return  < UserProfile {...routerProps} user={idUser} users={users} presentUser={presentUser} likedButton={likedButton} lastfmData={lastfmReturnData} directMessageHandler={directMessageHandler} /> 
             }}/>
 
             <Route path="/users" render={() => presentUser ? < UsersIndex user={presentUser} users={users} likedButton={likedButton}/>  :  <Redirect to="/"/> }/>
@@ -285,7 +273,7 @@ const App = () => {
 
             <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> : null } />
 
-            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 

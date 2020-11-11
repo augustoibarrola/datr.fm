@@ -4,9 +4,10 @@
   }
 
   .ux-body {
-    padding: 35px;
+    padding: 45px;
     background-color: #fef7f6;
-    height: 100vh
+    height: 100vh;
+    padding-left: 70px
   }
 
   .card-deck {
