@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Nav, Card, CardDeck, Col, Image, Button, Modal, Accordion, Form, FormControl, InputGroup }  from 'react-bootstrap'
+import { Nav, Card, CardDeck, Col, Image, Button, Modal, Accordion, Form, FormControl, InputGroup, ListGroup, Popover, Tooltip, OverlayTrigger }  from 'react-bootstrap'
+import { Label } from 'semantic-ui-react'
 import { Layout } from 'antd';
 import { Link } from 'react-router-dom'
 import TopArtistWidget from './WeeklyAlbumsWidget'
@@ -73,30 +74,25 @@ const PresentUserProfileComponent = (props) => {
 
     return(
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-        <div className="TEST" style={{maxWidth: '880px'}}>
+
+        <div className="user-div" style={{maxWidth: '880px'}}>
+
+          <div className="user-usernametitle-div" style={ { display: 'flex', flexDirection: 'row' , paddingBottom: '30px'} }>
+            <h1 style={ {  paddingRight: '15px' } }> {props.user.username} </h1> 
+          </div>
 
           <div className="user-card" style={userCardStyling}> 
             <Image className="user-profile-component-circled-image" style={imageStyle} src={props.user.image_url} roundedCircle />
 
-            <div className="user-card-body" style={{ width: 'maxContent', display: 'flex', flexDirection: 'column', alignItems: 'end', maxWidth: '630px' } }> 
-              {/* <Card.Body style={ { width: '260px', display: 'flex', justifyContent: "space-evenly" } } >*/}
-              <div className="user-usernametitle-div" style={ { display: 'flex', flexDirection: 'row' , padding: '20px'} }>
-                <Card.Title style={ { paddingTop: '8px', paddingRight: '15px' } }> {props.user.username} </Card.Title> 
-                <button id={props.user.id} onClick={(event) => props.likedButton(event)} className="btn btn-outline-primary" type="submit" style={ { maxHeight: '37px' } }>
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                  </svg>
-                </button>
-              </div>
+            <div className="user-card-body" style={{ width: 'maxContent', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', maxWidth: '630px' } }> 
 
               <div className="user-userdescription-div" style={ { display: 'flex', flexDirection: 'row' , padding: '20px'} }>
-                <Card.Title style={ { width: '400px', textAlign: 'end', paddingRight: '14px' } }> {props.user.description} </Card.Title>
-                <Button variant="primary" onClick={handleModalShow} style={ { width: 'min-content', height: 'min-content'} }>
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
-                  </svg>
-                </Button>
+                <ListGroup variant="flush">
+                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <h3> Description </h3> </ListGroup.Item>
+                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <em> {props.user.description} </em> </ListGroup.Item>
+                </ListGroup>
               </div>
+
             </div>
 
 
@@ -109,7 +105,7 @@ const PresentUserProfileComponent = (props) => {
                   <Form onSubmit={ (event) => {
                     props.userUpdateHandler(event, userDescription, userName, userUsername, userEmail, userProfileUrl) 
                     handleModalClose()
-                  }} style ={ { width: '830px' } }>
+                  }} style ={ { width: '100%' } }>
                     <Modal.Body>
                       <Form.Group controlId="formGroupName">
                         <Form.Label>Name</Form.Label>  
@@ -144,6 +140,24 @@ const PresentUserProfileComponent = (props) => {
                   </Form>
               </Modal>
             </div>
+          </div>
+
+          <div className="user-edit-controls-div" style={ { padding: '20px' } }>
+            <OverlayTrigger 
+              key="right"
+              placement="right"
+              overlay={
+                <Tooltip id='popover-positioned-right'>
+                  <strong>Edit Your Profile</strong>
+                </Tooltip>
+              }
+            >
+              <Button variant="primary" onClick={handleModalShow} style={ { width: 'min-content', height: 'min-content'} }>
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
+                  </svg>
+              </Button>
+            </OverlayTrigger>
           </div>
 
 
@@ -185,10 +199,14 @@ const PresentUserProfileComponent = (props) => {
             
           </Accordion>
         </div>
+
     
         <div>
           { showLastfmData ? <Lastfm user={props.user}lastfmData={props.lastfmData}/> : null}
         </div>
+
+    
+
 
       </div>
     )

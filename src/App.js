@@ -26,6 +26,7 @@ const App = () => {
   const [presentUserSentMessages, setPresentUserSentMessages ] = useState('')
   const [presentToken, setPresentToken] = useState('')
   const [lastfmReturnData, setLastfmReturnData ] = useState('')
+  const [lastfmtags, setLastfmTags] = useState('')
 
   const signInSubmitHandler = (event) => {
     event.preventDefault()
@@ -230,7 +231,22 @@ const App = () => {
     })
     .then(data => setLastfmReturnData(data))
     .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
+    // .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
   }
+
+  useEffect(() => {
+     fetch(`http://ws.audioscrobbler.com/2.0/?method=tag.getTopTags&api_key=${lastfmKey}&format=json`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('error')
+      })
+      .then( data =>{
+         console.log("returned tags from last.fm => ", data)
+         setLastfmTags(data.toptags.tag)
+      })
+  }, [])
 
 
   useEffect(() =>  {
@@ -244,6 +260,7 @@ const App = () => {
       })
       .then(response => response.json())
       .then(users=> setUsers(users) )
+
     }
   }, [presentUser])
 
@@ -274,7 +291,7 @@ const App = () => {
                return presentUser ? <Redirect to="/" /> : <Redirect to="/" />
             }} />
 
-            <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> : null } />
+            <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> :  <Redirect to="/"/>  } />
 
             <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 

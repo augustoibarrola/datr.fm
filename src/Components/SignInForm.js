@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import UserProfile from './UserProfile.js'
 import { NavLink, Redirect } from 'react-router-dom'
 import { Form, Col, InputGroup, FormControl, Button  } from 'react-bootstrap'
+import { Button as SemanticButtonn, Divider, Form as SemanticForm, Grid, Segment } from 'semantic-ui-react'
 
 function SignInForm(props) {
 
@@ -14,7 +15,7 @@ function SignInForm(props) {
         display: 'flex', 
         justifyContent: 'space-around',
         flexDirection: 'column',
-        maxWidth: '20%'
+        maxWidth: '100%'
     }
 
     const notMemberStylingH4 = {
@@ -22,7 +23,7 @@ function SignInForm(props) {
     }
 
     return(
-        <div>
+        <div className="TEST" style={ { backgroundColor: '#fcd4e5', padding: '50px', width: '50%', borderRadius: '25px', border: '2px solid red' } }>
             <div style={signInHeadingStyling}> 
                 <h2> Sign In Please</h2>
             </div>
@@ -76,6 +77,8 @@ function SignInForm(props) {
                 </Form>
             </div>
         </div>
+
+        
 
 
 
