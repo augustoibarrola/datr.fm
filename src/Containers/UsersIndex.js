@@ -11,10 +11,6 @@ const UsersIndex = (props) => {
     const [searchResults, setSearchResults] = useState([])
     const [users, setUsers] = useState(props.users.filter( user => user.id !== props.user.id ))
 
-    // const mapUsers = (props) => {
-    //     props.users.map(user =>  <Link to={`/users/${user.id}`} ><UserProfileComponent id={user.id} key={user} user={user} presentUser={props.presentUser} likedButton={props.likedButton}/></Link>)
-    // }
-
     useEffect(() => {
         const results = users.filter(user => user.username.toLowerCase().includes(searchTerm))
         setSearchResults(results)
@@ -47,7 +43,7 @@ const UsersIndex = (props) => {
             </div>
 
             {/* deck of user profile widgets is populated here */}
-            <div className="card-deck">
+            <div className="card-deck-div" style={ { overflowY: 'auto' } }>
                 <CardDeck>
                         { searchResults ? searchResults.map( user =>  <UserProfileWidget user={user} likedButton={props.likedButton}/> ) : null  }
                 </CardDeck>
@@ -60,5 +56,5 @@ const UsersIndex = (props) => {
 export default UsersIndex
 // imported in ../App.js
 
-// UsersIndex should contain UserProfileComponents 
+
 

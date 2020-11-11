@@ -80,7 +80,7 @@ function SignUpForm(props) {
                 </Form.Group>
 
 
-                <Button variant="outline-primary" type="submit"> You're all Set! </Button>{' '}
+                <Button variant="outline-danger" type="submit"> You're all Set! </Button>{' '}
 
             </Form>
         </div>

@@ -151,8 +151,8 @@ const PresentUserProfileComponent = (props) => {
           <Accordion >
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                Last.fm                
+                <Accordion.Toggle as={Button} variant="link" eventKey="0" style={ { textDecoration: 'none' } }>
+                <Form.Control type="text" placeholder="Last.fm Scrobbles" readOnly />                
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="0">
@@ -172,7 +172,7 @@ const PresentUserProfileComponent = (props) => {
                         aria-describedby="basic-addon1"
                       />
                       <InputGroup.Append>
-                        <Button variant="outline-secondary" type="submit" > Submit </Button>
+                        <Button variant="outline-danger" type="submit" > Submit </Button>
                       </InputGroup.Append>
                     </InputGroup>
                   </form> 
@@ -187,7 +187,7 @@ const PresentUserProfileComponent = (props) => {
         </div>
     
         <div>
-          { showLastfmData ? <Lastfm lastfmData={props.lastfmData}/> : null}
+          { showLastfmData ? <Lastfm user={props.user}lastfmData={props.lastfmData}/> : null}
         </div>
 
       </div>

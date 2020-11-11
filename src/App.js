@@ -90,7 +90,6 @@ const App = () => {
         console.log("NEW_USER => ", newUser)
         localStorage.setItem("token", newUser.jwt)
         setPresentUser(newUser.user)
-        // setUsers(newUser.users)
       })
   }
 
@@ -109,9 +108,6 @@ const App = () => {
 
     let liker_id = presentUser.id
     let liked_id = event.target.id
-    // let likedUsers = presentUser.liked_users.map(hearts => hearts.liked_id == liked_id )
-    // hearts have a liker and a liked -> return true for every heart where the liked_id is the same as the liked_id coming in
-    // i.e. bring back true whenever new liked_user is already present in one of the hearts objects of the present user 
     let likedUsers = presentUser.liked_users.filter(hearts => hearts.liked_id == liked_id )
     let token = localStorage.getItem("token")
 

@@ -62,7 +62,7 @@ function SignInForm(props) {
                         </Col>
 
                         <Col xs="auto">
-                            <Button type="submit" className="mb-2" variant="outline-primary">
+                            <Button type="submit" className="mb-2" variant="outline-danger">
                             Log In
                             </Button>
                         </Col>
@@ -70,7 +70,7 @@ function SignInForm(props) {
                     <div className="not-a-member" style={notMemberStyling}>
                         <h4 style={notMemberStylingH4}> Not A Member? </h4>
                         <NavLink to="/signup">
-                            <Button variant="outline-primary"> Let's Change That </Button>{' '}
+                            <Button variant="outline-danger"> Let's Change That </Button>{' '}
                         </NavLink>
                     </div>
                 </Form>
