@@ -193,13 +193,19 @@ const App = () => {
   })
   }
 
-  const userUpdateHandler = (event, userDescription) => {
+  const userUpdateHandler = (event, userDescription, userName, userUsername, userEmail, userProfileUrl) => {
     event.preventDefault()
     presentUser.description = userDescription
+    presentUser.name = userName
+    presentUser.username = userUsername
+    presentUser.email = userEmail
+    presentUser.image_url = userProfileUrl
+    console.log("PRESENTUSER AT PATCH HANDLER =>", presentUser )
+    console.log(event.target)
 
     let token = localStorage.getItem("token")
 
-     fetch(usersAPI_URL + event.target.id, {
+     fetch(usersAPI_URL + presentUser.id, {
        method: 'PATCH', 
        headers: {
          'Authorization': `Bearer ${token}`,
@@ -209,8 +215,9 @@ const App = () => {
        body: JSON.stringify( presentUser )
      })
      .then(response => response.json())
-     .then(data => {
-       console.log("UPDATED USER => ", data )
+     .then(patchedUser => {
+       console.log("UPDATED USER  AT USERUPDATEHANDLER=> ", patchedUser )
+        setPresentUser(patchedUser)
      })
   }
 
@@ -242,7 +249,7 @@ const App = () => {
       .then(response => response.json())
       .then(users=> setUsers(users) )
     }
-  }, [])
+  }, [presentUser])
 
 
   return (

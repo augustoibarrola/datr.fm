@@ -1,8 +1,8 @@
 import React from 'react'
-import { Card, CardDeck } from 'react-bootstrap'
+import { Card, CardDeck, ListGroup } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-const TopArtistWidget = ( props ) => {
+const WeeklyAlbumsWidget = ( props ) => {
     console.log(props) //=>> an individual album with .artist(object, .mbid, ["#text"]), .name, .playcount, .url, 
     
     const artistCardStyling = {
@@ -12,9 +12,7 @@ const TopArtistWidget = ( props ) => {
     return(
     // <h1>hello </h1>
         <div styling={artistCardStyling}> 
-             {/* <h3>{props.user.name}</h3>
-             <h4>{props.user.username}</h4> */}
-             <Card styling={artistCardStyling}>
+             {/* <Card styling={artistCardStyling}>
                      <Card.Body>
                      <Card.Title> <a href={props.album.url}> {props.album.name} </a> </Card.Title>
                      <Card.Text>
@@ -24,9 +22,14 @@ const TopArtistWidget = ( props ) => {
                      <Card.Footer>
                         <small className="text-muted"> {props.album.playcount} plays </small>
                      </Card.Footer>
-                 </Card>
+                 </Card> */}
+
+                 <ListGroup.Item action href={props.album.url} >
+                    {props.album.name} by <em>{props.album.artist["#text"]}</em>
+                </ListGroup.Item>
+                
          </div>
     )
 }
 
-export default TopArtistWidget 
+export default WeeklyAlbumsWidget 

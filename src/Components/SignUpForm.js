@@ -64,16 +64,6 @@ function SignUpForm(props) {
                         <FormControl id="inlineFormInputGroup" placeholder="Username" />     
                 </Form.Group>
 
-                {/* <Form.Group controlId="formGroupProfilePicture">
-                    <Form.Label>Profile Picture</Form.Label>  
-                    <Form.File 
-                        id="custom-file-translate-scss"
-                        label="Profile Picture "
-                        lang="en"
-                        custom
-                    />
-                </Form.Group> */}
-
                 <Form.Group controlId="formGroupProfile Picture Url">
                     <Form.Label>Profile Picture Url</Form.Label>  
                         <FormControl id="inlineFormInputGroup" placeholder="Profile Picture Url" />     

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { CardDeck } from 'react-bootstrap'
-import TopArtistWidget from './TopArtistWidget.js'
+import { CardDeck, ListGroup } from 'react-bootstrap'
+import WeeklyAlbumsWidget from './WeeklyAlbumsWidget.js'
 
 const Lastfm = (props) => {
 
@@ -10,13 +10,17 @@ const Lastfm = (props) => {
       }
 
     return(
-        <div>
+        <div style={ { paddingTop: '20px' } }>
             <h2>Weekly Albums: </h2>
-            <div style={weeklyAlbumsDiv}> 
-                <CardDeck>
-                { props.lastfmData ? props.lastfmData.weeklyalbumchart.album.map( album => <TopArtistWidget album={album} /> ) : null }
-                </CardDeck>
-            </div>     
+            <div style={{border: '10px', display: 'flex', flexWrap: 'wrap'}}> 
+                {/* <CardDeck>
+                { props.lastfmData ? props.lastfmData.weeklyalbumchart.album.map( album => <WeeklyAlbumsWidget album={album} /> ) : null }
+                </CardDeck> */}
+
+                <ListGroup >
+                { props.lastfmData ? props.lastfmData.weeklyalbumchart.album.map( album => <WeeklyAlbumsWidget album={album} /> ) : null }
+                </ListGroup>
+            </div>
         </div>
 
     )
