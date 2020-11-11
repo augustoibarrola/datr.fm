@@ -6,6 +6,7 @@ import RecievedMessages from '../Components/RecievedMessages.js'
 
 
 const Messages = (props) => {
+console.log("props at messages", props)
 
     const [key, setKey] = useState('new')
 

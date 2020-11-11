@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import UserProfile from '../Containers/UserProfile.js'
+import UserProfile from './UserProfile.js'
 import { NavLink, Redirect } from 'react-router-dom'
 import { Form, Col, InputGroup, FormControl, Button  } from 'react-bootstrap'
+import { Button as SemanticButtonn, Divider, Form as SemanticForm, Grid, Segment } from 'semantic-ui-react'
 
 function SignInForm(props) {
 
@@ -9,13 +10,25 @@ function SignInForm(props) {
         paddingBottom: '15px',
     }
 
+    const notMemberStyling = {
+        paddingTop: '20px',
+        display: 'flex', 
+        justifyContent: 'space-around',
+        flexDirection: 'column',
+        maxWidth: '100%'
+    }
+
+    const notMemberStylingH4 = {
+        paddingBottom: '6px'
+    }
+
     return(
-        <div>
+        <div className="TEST" style={ { backgroundColor: '#fcd4e5', padding: '50px', width: '50%', borderRadius: '25px', border: '2px solid red' } }>
             <div style={signInHeadingStyling}> 
                 <h2> Sign In Please</h2>
             </div>
             <div>
-            <Form onSubmit={(event) => props.signInSubmitHandler(event)}>
+                <Form onSubmit={(event) => props.signInSubmitHandler(event)}>
                     <Form.Row className="align-items-center">
 
                         <Col xs="auto">
@@ -36,7 +49,7 @@ function SignInForm(props) {
                             
                         </Col>
                         
-                            <Col xs="auto">
+                        <Col xs="auto">
                             <Form.Label htmlFor="inlineFormInput" srOnly>
                             Password
                             </Form.Label>
@@ -50,14 +63,22 @@ function SignInForm(props) {
                         </Col>
 
                         <Col xs="auto">
-                            <Button type="submit" className="mb-2">
+                            <Button type="submit" className="mb-2" variant="outline-danger">
                             Log In
                             </Button>
                         </Col>
                     </Form.Row>
+                    <div className="not-a-member" style={notMemberStyling}>
+                        <h4 style={notMemberStylingH4}> Not A Member? </h4>
+                        <NavLink to="/signup">
+                            <Button variant="outline-danger"> Let's Change That </Button>{' '}
+                        </NavLink>
+                    </div>
                 </Form>
             </div>
         </div>
+
+        
 
 
 
@@ -69,28 +90,3 @@ function SignInForm(props) {
 }
 
 export default SignInForm
-// imported in ../App.js
-
-//  <h2>Sign in Please</h2>
-
-//             <form onSubmit={(event) => props.signInSubmitHandler(event)}>
-//                 <div>
-//                     <label>UserName:</label>
-//                     <input />
-//                 </div>
-
-
-//                 <div>
-//                     <label>Password:</label>
-//                     <input type="password" />
-//                 </div>
-
-//                 <div>
-//                         <input type="submit"/> 
-//                 </div>
-
-//             </form>
-
-//             <div>
-//                 <NavLink to="/signup" >Sign Up</NavLink>
-//             </div> 

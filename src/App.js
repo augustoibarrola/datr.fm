@@ -3,11 +3,11 @@ import './App.css';
 import SignInForm from './Components/SignInForm.js'
 import SignUpForm from './Components/SignUpForm.js'
 import UserNavBar from './Components/UserNavBar.js'
-import UserProfile from './Containers/UserProfile.js'
+import UserProfile from './Components/UserProfile.js'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Welcome from './Components/Welcome.js'
 import UsersIndex from './Containers/UsersIndex.js'
-import UserProfileComponent from './Components/UserProfileComponent.js'
+import PresentUserProfileComponent from './Components/PresentUserProfileComponent.js'
 import UserProfileWidget from './Components/UserProfileWidget.js'
 import Messages from './Containers/Messages.js'
 import NewMessage from './Components/NewMessage.js'
@@ -26,9 +26,7 @@ const App = () => {
   const [presentUserSentMessages, setPresentUserSentMessages ] = useState('')
   const [presentToken, setPresentToken] = useState('')
   const [lastfmReturnData, setLastfmReturnData ] = useState('')
-
-
-
+  const [lastfmtags, setLastfmTags] = useState('')
 
   const signInSubmitHandler = (event) => {
     event.preventDefault()
@@ -47,6 +45,7 @@ const App = () => {
     })
     .then(response => response.json())
     .then(data => {
+      console.log("data at sign in handler", data)
       localStorage.setItem("token", data.jwt)
       setPresentUser(data.user)
     })
@@ -56,9 +55,10 @@ const App = () => {
       event.preventDefault()
       let name = event.target[0].value
       let userName = event.target[1].value
-      let email = event.target[2].value
+      let imageUrl = event.target[2].value
+      let email = event.target[3].value
       let description = ''
-      let password = event.target[3].value
+      let password = event.target[4].value
 
       fetch(usersAPI_URL, {
           method: 'POST', 
@@ -70,10 +70,19 @@ const App = () => {
           body: JSON.stringify({ 
               user: {
                   name: name,
+                  // age: 
                   username: userName,
                   email: email,
                   description: description,
+                  image_url: imageUrl,
                   password: password
+                  // t.string "name"
+                  // t.integer "age"
+                  // t.string "username"
+                  // t.string "email"
+                  // t.text "description"
+                  // t.string "image_url"
+                  // t.string "password_digest"
               }
           })
       })
@@ -85,26 +94,44 @@ const App = () => {
       })
   }
 
-  const likedButton = (event) => {
-    console.log("presentUser id ==>", presentUser)
-    console.log("event.target ==>", event.target)
+  const getIndex = (likedUsers) => {
+    for( let i = 0; i < likedUsers.length; i++) {
+       if( likedUsers[i] === true) {
+           return i;
+       }
+    }
+  }
 
+  const likedButton = (event) => {
+    event.preventDefault()
+    console.log("presentUser liking someone ==>", presentUser)
+    console.log("person being liked ==>", event.target.id)
+
+    let liker_id = presentUser.id
+    let liked_id = event.target.id
+    let likedUsers = presentUser.liked_users.filter(hearts => hearts.liked_id == liked_id )
     let token = localStorage.getItem("token")
 
-    fetch('http://localhost:3000/hearts', {
-      method: 'POST', 
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        "content-type": "application/json",
-        "accepts": "application/json"
-      }, 
-      body: JSON.stringify({
-        liker_id: presentUser.id,
-        liked_id: event.target.id
+    console.log(" liked users in liked handler", likedUsers)
+
+    if (likedUsers.length > 0) {
+      console.log("you've already liked this user")
+    } else if ( likedUsers.length <= 0 ) {
+      fetch('http://localhost:3000/hearts', {
+       method: 'POST', 
+       headers: {
+         'Authorization': `Bearer ${token}`,
+         "content-type": "application/json",
+         "accepts": "application/json"
+       }, 
+       body: JSON.stringify({
+         liker_id: presentUser.id,
+         liked_id: event.target.id
        })
-    })
-    .then(response => response.json())
-    .then(console.log)
+     })
+     .then(response => response.json())
+     .then(console.log)
+    }
   }
 
   const messagesSubmitHandler = (event, recipient) => {
@@ -134,15 +161,92 @@ const App = () => {
      .then(response => response.json())
      .then(data => {
          console.log("POST_REQUEST_MESSAGES_RESPONSE => ", data)
+         console.log("present user when new message comes back from fetch", presentUser)
+         setPresentUserSentMessages(presentUser.messages_sent.push(data.new_message))
      })
-}
+  }
+
+  const directMessageHandler = (event, messageBody) => {
+    // event.preventDefault()
+    let token = localStorage.getItem("token")
 
 
-  // const lastFmAuth = () => {
-  //   fetch(`http://www.last.fm/api/auth/${process.env.REACT_APP_LASTFM_KEY}`, {
-  //     method: 'GET'
-  //   })
-  // }
+    fetch(messagesAPI_URL, {
+      method: 'POST', 
+      headers: {
+          'Authorization': `Bearer ${token}`,
+          "content-type": "application/json",
+          "accepts": "application/json"
+      },
+      body: JSON.stringify({
+          sender_id: presentUser.id,
+          recipient_id: event.target.id,
+          message_body: messageBody
+      })
+  })
+  .then(response => response.json())
+  .then(data => {
+      setPresentUserSentMessages(presentUser.messages_sent.push(data.new_message))
+  })
+  }
+
+  const userUpdateHandler = (event, userDescription, userName, userUsername, userEmail, userProfileUrl) => {
+    event.preventDefault()
+    presentUser.description = userDescription
+    presentUser.name = userName
+    presentUser.username = userUsername
+    presentUser.email = userEmail
+    presentUser.image_url = userProfileUrl
+    console.log("PRESENTUSER AT PATCH HANDLER =>", presentUser )
+    console.log(event.target)
+
+    let token = localStorage.getItem("token")
+
+     fetch(usersAPI_URL + presentUser.id, {
+       method: 'PATCH', 
+       headers: {
+         'Authorization': `Bearer ${token}`,
+         "content-type": "application/json",
+         "accepts": "application/json"
+       },
+       body: JSON.stringify( presentUser )
+     })
+     .then(response => response.json())
+     .then(patchedUser => {
+       console.log("UPDATED USER  AT USERUPDATEHANDLER=> ", patchedUser )
+        setPresentUser(patchedUser)
+     })
+  }
+
+  const lastfmHandler = (event) => {
+    event.preventDefault()
+    console.log("lastfmhandler success", event.target[0].value)
+    let lastfmUsername = event.target[0].value
+    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=${lastfmUsername}&api_key=${lastfmKey}&format=json`)
+    .then( response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('error');
+    })
+    .then(data => setLastfmReturnData(data))
+    .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
+    // .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
+  }
+
+  useEffect(() => {
+     fetch(`http://ws.audioscrobbler.com/2.0/?method=tag.getTopTags&api_key=${lastfmKey}&format=json`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('error')
+      })
+      .then( data =>{
+         console.log("returned tags from last.fm => ", data)
+         setLastfmTags(data.toptags.tag)
+      })
+  }, [])
 
 
   useEffect(() =>  {
@@ -156,42 +260,28 @@ const App = () => {
       })
       .then(response => response.json())
       .then(users=> setUsers(users) )
+
     }
-
-    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${key}&format=json`)
-    // fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=OtsuguaalorrabI&api_key=${lastfmKey}&format=json`)
-    fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=rj&api_key=${lastfmKey}&format=json`)
-    
-    .then( response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('error');
-    })
-    .then(data => setLastfmReturnData(data))
-    .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
-
-  }, [])
+  }, [presentUser])
 
 
   return (
     <div>
       <UserNavBar user={presentUser} users={users} />
       <div className="ux-body">
-        {/* {presentUser ? < UserProfile user={presentUser} users={users}/> : < SignInForm signInSubmitHandler={signInSubmitHandler} /> } */}
          <Switch>
 
-            <Route path="/users/:id" render={(routerProps) =>{
+            <Route path="/users/:id" render={(routerProps) => {
               const idUser = users.find(user => user.id == routerProps.match.params.id )
-              return  < UserProfileComponent {...routerProps} user={idUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} />
+              return  < UserProfile {...routerProps} user={idUser} users={users} presentUser={presentUser} likedButton={likedButton} lastfmData={lastfmReturnData} directMessageHandler={directMessageHandler} /> 
             }}/>
 
-            <Route path="/users" render={() => < UsersIndex user={presentUser} users={users} likedButton={likedButton}/> }/>
+            <Route path="/users" render={() => presentUser ? < UsersIndex user={presentUser} users={users} likedButton={likedButton}/>  :  <Redirect to="/"/> }/>
 
             <Route path="/lastfm" render={() => < Lastfm user={presentUser} /> }/>
             {/* Make above for last.fm sign in route.  */}
 
-            <Route path="/signin" render={() =>  < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
+            <Route path="/signin" render={() =>  presentUser ? <Redirect to="/"/> : < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
 
             <Route path="/signup" render={() =>  presentUser ? <Redirect to="/" />  : < SignUpForm signUpSubmitHandler={signUpSubmitHandler} /> } />
             
@@ -201,9 +291,9 @@ const App = () => {
                return presentUser ? <Redirect to="/" /> : <Redirect to="/" />
             }} />
 
-            <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler}/> : null } />
+            <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> :  <Redirect to="/"/>  } />
 
-            <Route path="/" render={() => presentUser ? < UserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 
