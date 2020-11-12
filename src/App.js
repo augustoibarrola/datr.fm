@@ -250,6 +250,12 @@ const App = () => {
 
   }
 
+  const directMusicMessageHandler = (event, msgBody) => {
+
+    console.log("props at direct music message handler => ", event)
+    console.log("msgBody at DMMH => ", msgBody)
+  }
+
   // useEffect(() => {
   //    fetch(`http://ws.audioscrobbler.com/2.0/?method=tag.getTopTags&api_key=${lastfmKey}&format=json`)
   //     .then(response => {
@@ -308,7 +314,7 @@ const App = () => {
 
             <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> :  <Redirect to="/"/>  } />
 
-            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} directMusicMessageHandler={directMusicMessageHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 

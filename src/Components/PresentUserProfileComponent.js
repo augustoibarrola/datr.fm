@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Nav, Card, CardDeck, Col, Image, Button, Modal, Accordion, Form, FormControl, InputGroup, ListGroup, Popover, Tooltip, OverlayTrigger, Alert }  from 'react-bootstrap'
-import { Label } from 'semantic-ui-react'
 import { Layout } from 'antd';
 import { Link } from 'react-router-dom'
-import TopArtistWidget from './WeeklyAlbumsWidget'
 import Lastfm from './Lastfm.js'
+import MusicMessage from './MusicMessage.js'
 
 const PresentUserProfileComponent = (props) => {
   console.log("props at presentUserprofilecomponent", props)
   
-      const { Header, Footer, Sider, Content } = Layout;
       const [showModal, setShowModal] = useState(false)
-      const [showMusicMessageModal, setShowMusicMessageModal] = useState(false)
       const [showLastfmData, setShowLastfmData] = useState(false)
       const [lastfmUsername, setLastfmUsername] = useState('')
       
@@ -20,14 +17,18 @@ const PresentUserProfileComponent = (props) => {
       const [userUsername, setUserUsername] = useState(props.user.username)
       const [userProfileUrl, setUserProfileUrl] = useState(props.user.image_url)
       const [userEmail, setUserEmail] = useState(props.user.email)
-
+      
       const [deleteAlert, setDeleteAlert] = useState(false)
-
+      
+      const [showMusicMessageModal, setShowMusicMessageModal] = useState(false)
       const [sender, setSender] = useState(props.user)
-      const [recipient, setRecipient] = useState('')
-      const [msgBody, setMsgBody] = useState('')
-      const usersArray = props.users.filter( user => user.id !== props.user.id)
+      // const [recipient, setRecipient] = useState('')
+      // const [msgBody, setMsgBody] = useState('')
+      const [selectedAlbum, setSelectedAlbum] = useState('')
 
+      // const msgBodyHandler = (event) => {
+      //   setMsgBody(event.target.value)
+      // }
 
       const deleteAlertToggle = (event) => {
         event.preventDefault()
@@ -75,11 +76,16 @@ const PresentUserProfileComponent = (props) => {
       }
 
       const musicMessageToggle = (event, album) => {
+        console.log(selectedAlbum)
+
+        setSelectedAlbum(album)
+
+        console.log(selectedAlbum)
         event.preventDefault()
         console.log(event.target)
         console.log(album)
         handleMusicMessageModalShow()
-  
+        console.log("SELECTED ALBUM => ", selectedAlbum)
     }
 
       const cardStyling = {
@@ -200,7 +206,18 @@ const PresentUserProfileComponent = (props) => {
               </Modal>
             </div>
 
-            <div className="modal-div">
+
+
+
+            {/* !! !! !! !! */}
+
+            { showMusicMessageModal ? <MusicMessage user={props.user} userUsername={userUsername} users={props.users} selectedAlbum={selectedAlbum} handleMusicMessageModalClose={handleMusicMessageModalClose} directMusicMessageHandler={props.directMusicMessageHandler} /> : null }
+            
+            
+            {/* !! !! !! */}
+            {/* MUSIC DM MODAL */}
+                  {/* IMPORT FROM MUSICMESSAGE.JS */}
+            {/* <div className="musicmessage-modal-div">
               <Modal show={showMusicMessageModal} onHide={handleMusicMessageModalClose}>
 
                 <Modal.Header closeButton> 
@@ -216,29 +233,27 @@ const PresentUserProfileComponent = (props) => {
                     {usersArray.map(user => <option value={user.name} id={user.id}> {user.name} </option>)} 
                     </Form.Control>
                 </Form.Group>
-                  <Form.Control type="text" placeholder={props.user.username} disabled />
                   <div className="text-input-div" style={ { paddingTop: 'inherit' } }>
-                    {/* <input type="textarea" value={ messageBody } onChange={ messageBodyHandler } style={ { width: '100%', height: '235px', paddingBottom: '185px', paddingLeft: '10px' } } /> */}
+                    <input type="textarea" value={ `${msgBody} + ${selectedAlbum}` } onChange={ event => msgBodyHandler(event) } style={ { width: '100%', height: '235px', paddingBottom: '185px', paddingLeft: '10px' } } />
                   </div>
                 </Modal.Body>
 
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={ handleModalClose }>
+                  <Button variant="outline-secondary" onClick={ handleModalClose }>
                     Close
                   </Button>
-                  {/* 
-                  <Button id={props.user.id} variant="primary" onClick={ (event) => {
-                    props.directMessageHandler(event, messageBody)
-                    setMessageBody('')
+
+                  <Button id={props.user.id} variant="outline-primary" onClick={ (event) => {
+                    props.directMusicMessageHandler(event, msgBody)
+                    setMsgBody('')
                     handleModalClose()
                   } } >
-                  
                     Send Message
                   </Button>
-                   */}
+
                 </Modal.Footer>
               </Modal>
-            </div>
+            </div> */}
 
           </div>
 

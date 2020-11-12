@@ -20,7 +20,7 @@ const WeeklyAlbumsWidget = ( props ) => {
 
     return(
         <div styling={artistCardStyling}> 
-                <form onSubmit={ event => props.musicMessageToggle(event, album ) }>
+                <form onSubmit={ event => props.musicMessageToggle( event, album ) }>
                     <ListGroup.Item as="button" type="submit" style={{ width: '100%' }} >
                         <strong> {props.album.name}  </strong> by <em>{props.album.artist["#text"]}</em>
                     </ListGroup.Item>
