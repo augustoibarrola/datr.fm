@@ -20,10 +20,6 @@ const UsersIndex = (props) => {
         setSearchTerm(event.target.value)
     }
 
-    const searchBarStyling = {
-        paddingTop: '30px',
-    }
-
     return(
         <div>
 
@@ -33,7 +29,7 @@ const UsersIndex = (props) => {
             </div>
             
             {/* search bar logic*/}
-            <div className="search-bar-div" style={searchBarStyling}>
+            <div className="search-bar-div" style={ { width: '50%' } }>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                         <InputGroup.Text>Looking for Someone?</InputGroup.Text>
@@ -43,7 +39,7 @@ const UsersIndex = (props) => {
             </div>
 
             {/* deck of user profile widgets is populated here */}
-            <div className="card-deck-div" style={ { overflowY: 'auto' } }>
+            <div className="card-deck-div" style={ { overflowY: 'auto', height: '700px' } }>
                 <CardDeck>
                         { searchResults ? searchResults.map( user =>  <UserProfileWidget user={user} likedButton={props.likedButton}/> ) : null  }
                 </CardDeck>

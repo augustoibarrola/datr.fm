@@ -11,15 +11,10 @@ const Lastfm = (props) => {
 
     return(
         <div style={ { paddingTop: '20px' } }>
-            {/* <h3 style={ { textAlign: 'start', paddingBottom: '20px' } }> {props.user.username}'s Weekly Album Scrobbles: </h3> */}
-            <Form.Control type="text" placeholder="Last.fm Scrobbles" style={ { textAlign: 'start', padding: '30px', width: '512px' } } readOnly />                
+            <Form.Control type="text" placeholder="Last.fm Scrobbles" style={ { textAlign: 'start', padding: '30px', width: '100%' } } readOnly />                
             <div style={{border: '10px', display: 'flex', flexWrap: 'wrap'}}> 
-                {/* <CardDeck>
-                { props.lastfmData ? props.lastfmData.weeklyalbumchart.album.map( album => <WeeklyAlbumsWidget album={album} /> ) : null }
-                </CardDeck> */}
-
                 <ListGroup style={ { maxHeight: '680px', overflowY: 'auto' } } >
-                { props.lastfmData ? props.lastfmData.weeklyalbumchart.album.map( album => <WeeklyAlbumsWidget album={album} /> ) : null }
+                    { props.lastfmData ? props.lastfmData.weeklyalbumchart.album.map( album => <WeeklyAlbumsWidget album={album} musicMessageToggle={ props.musicMessageToggle } /> ) : null }
                 </ListGroup>
             </div>
         </div>

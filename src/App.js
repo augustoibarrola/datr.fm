@@ -19,6 +19,8 @@ const App = () => {
   const heartsAPI_URL = 'http://localhost:3000/hearts/'
   const messagesAPI_URL = 'http://localhost:3000/messages/'
   const lastfmKey = process.env.REACT_APP_LASTFM_KEY
+  const token = localStorage.getItem("token")
+
 
 
   const [users, setUsers] = useState([])
@@ -110,7 +112,6 @@ const App = () => {
     let liker_id = presentUser.id
     let liked_id = event.target.id
     let likedUsers = presentUser.liked_users.filter(hearts => hearts.liked_id == liked_id )
-    let token = localStorage.getItem("token")
 
     console.log(" liked users in liked handler", likedUsers)
 
@@ -142,7 +143,6 @@ const App = () => {
     let sendee = users.filter(user => user.name == recipient)
     let recipient_id = sendee[0].id
     let message_body = event.target[2].value
-    let token = localStorage.getItem("token")
 
 
      fetch(messagesAPI_URL, {
@@ -168,7 +168,6 @@ const App = () => {
 
   const directMessageHandler = (event, messageBody) => {
     // event.preventDefault()
-    let token = localStorage.getItem("token")
 
 
     fetch(messagesAPI_URL, {
@@ -200,7 +199,6 @@ const App = () => {
     console.log("PRESENTUSER AT PATCH HANDLER =>", presentUser )
     console.log(event.target)
 
-    let token = localStorage.getItem("token")
 
      fetch(usersAPI_URL + presentUser.id, {
        method: 'PATCH', 
@@ -234,23 +232,40 @@ const App = () => {
     // .catch(() => setLastfmReturnData( { error: 'Fetch request didn\'t work' } ) )
   }
 
-  useEffect(() => {
-     fetch(`http://ws.audioscrobbler.com/2.0/?method=tag.getTopTags&api_key=${lastfmKey}&format=json`)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('error')
-      })
-      .then( data =>{
-         console.log("returned tags from last.fm => ", data)
-         setLastfmTags(data.toptags.tag)
-      })
-  }, [])
+  const deleteHandler = (event) => {
+
+    console.log("event at deletehandler execution => ", event.target)
+    fetch(usersAPI_URL + presentUser.id, {
+      method: 'DELETE', 
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "content-type": "application/json",
+        "accepts": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(data => console.log("response from delete request => ", data))
+    setPresentUser('')
+    localStorage.removeItem("token")
+
+  }
+
+  // useEffect(() => {
+  //    fetch(`http://ws.audioscrobbler.com/2.0/?method=tag.getTopTags&api_key=${lastfmKey}&format=json`)
+  //     .then(response => {
+  //       if (response.ok) {
+  //         return response.json();
+  //       }
+  //       throw new Error('error')
+  //     })
+  //     .then( data =>{
+  //        console.log("returned tags from last.fm => ", data)
+  //        setLastfmTags(data.toptags.tag)
+  //     })
+  // }, [])
 
 
   useEffect(() =>  {
-    let token = localStorage.getItem("token")
     if (token) {
       fetch('http://localhost:3000/users/', {
         method: 'GET', 
@@ -293,7 +308,7 @@ const App = () => {
 
             <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> :  <Redirect to="/"/>  } />
 
-            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 

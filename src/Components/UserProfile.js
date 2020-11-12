@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Switch, Redirect, Link } from 'react-router-dom'
-import { Image, Card, Button, Modal, Form } from 'react-bootstrap'
+import { Image, Card, Button, Modal, Form, FormControl, ListGroup, Accordion, InputGroup, OverlayTrigger ,Tooltip } from 'react-bootstrap'
 import Messages from '../Containers/Messages.js'
-
+import Lastfm from './Lastfm.js'
 import UserNavBar from './UserNavBar.js'
 import UsersIndex from '../Containers/UsersIndex.js'
 import PresentUserProfileComponent from './PresentUserProfileComponent.js'
@@ -17,6 +17,11 @@ const UserProfile = (props) => {
     const [showModal, setShowModal] = useState(false)
     const [messageBody, setMessageBody] = useState('')
 
+    const [showLastfmData, setShowLastfmData] = useState(false)
+    const [lastfmUsername, setLastfmUsername] = useState('')
+
+
+
     const handleModalShow = () => {
         setShowModal(true)
     }
@@ -27,6 +32,10 @@ const UserProfile = (props) => {
 
     const messageBodyHandler = (event) => {
         setMessageBody(event.target.value)
+    }
+
+    const lastfmUsernameSearch = (event) => {
+      setLastfmUsername(event.target.value)
     }
 
     const userCardStyling = {
@@ -48,34 +57,96 @@ const UserProfile = (props) => {
     return(
         <div>
 
-          <div className="user-card" style={userCardStyling}> 
-            <Image className="user-profile-component-circled-image" style={imageStyle} src={props.user.image_url} roundedCircle />
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
 
-            <div className="user-card-body" style={userCardBodyStyling}> 
-              <Card.Body>
-                    <Card.Title> {props.user.username} </Card.Title>
-                <button id={props.user.id} onClick={(event) => props.likedButton(event)} className="btn btn-outline-primary" type="submit">
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                  </svg>
-                </button>
-              </Card.Body>
+            <div className="user-div" style={{maxWidth: '880px'}}>
+
+              <div className="user-usernametitle-div" style={ { display: 'flex', flexDirection: 'row' , paddingBottom: '30px'} }>
+                <h1 style={ {  paddingRight: '15px' } }> {props.user.username} </h1> 
+              </div>
+
+              <div className="user-card" style={userCardStyling}> 
+                <Image className="user-profile-component-circled-image" style={imageStyle} src={props.user.image_url} roundedCircle />
+
+                <div className="user-card-body" style={{ width: 'maxContent', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', maxWidth: '630px' } }> 
+
+                  <div className="user-userdescription-div" style={ { display: 'flex', flexDirection: 'row' , padding: '20px'} }>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item style={ { background: '#fcd7d4' } } > <h3> Description </h3> </ListGroup.Item>
+                      <ListGroup.Item style={ { background: '#fcd7d4' } } > <em> {props.user.description} </em> </ListGroup.Item>
+                    </ListGroup>
+                  </div>
+
+
+                </div>
+              </div>
+
+              
             </div>
 
             <div>
-                {props.user.description}
+              { showLastfmData ? <Lastfm user={props.user}lastfmData={props.lastfmData}/> : null}
             </div>
 
-
           </div>
-            {/* button above should activate modal  */}
-            {/* modal should be preset with presentUser id + profileUser.id */}
-            {/* should be hooked up to a messagesubmithandler in APP */}
-            
 
-            <Button variant="primary" onClick={handleModalShow}>
+          <div className="send-message-div" style={ { padding: '20px' } }>
+            <OverlayTrigger 
+              key="right"
+              placement="right"
+              overlay={
+                <Tooltip id='popover-positioned-right'>
+                  <strong>Say Hey!</strong>
+                </Tooltip>
+              }
+            >
+
+              <Button variant="primary" onClick={handleModalShow} style={ { width: 'max-content', height: 'min-content'} } >
                 Send Me A Message
               </Button>
+            </OverlayTrigger>
+          </div>
+
+          <Accordion style={{maxWidth: '880px'}}>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="0" style={ { textDecoration: 'none' } }>
+                <Form.Control type="text" placeholder="Last.fm Scrobbles" readOnly style={ { width: '100%' } } />                
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <form onSubmit={ (event) => {
+                    props.lastfmHandler(event)
+                    setLastfmUsername('')
+                    setShowLastfmData(true)
+                  } } >
+                    <InputGroup className="mb-3">
+                      <InputGroup.Prepend>
+                        <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl
+                        placeholder="Username"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                      />
+                      <InputGroup.Append>
+                        <Button variant="outline-danger" type="submit" > Submit </Button>
+                      </InputGroup.Append>
+                    </InputGroup>
+                  </form> 
+                  <Form.Text id="passwordHelpBlock" muted>
+                    Enter {props.user.username}'s Last.fm Username to recieve their top albums this week
+                  </Form.Text>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+
+
+
+          <div className="modal-div">
+
 
               <Modal show={showModal} onHide={handleModalClose}>
 
@@ -89,7 +160,7 @@ const UserProfile = (props) => {
                   <Form.Label >To:  </Form.Label>
                   <Form.Control type="text" placeholder={props.user.username} disabled />
                   <div className="text-input-div" style={ { paddingTop: 'inherit' } }>
-                    <input type="textarea" value={ messageBody } onChange={ messageBodyHandler } style={ { width: '100%', height: '235px', paddingBottom: '185px', paddingLeft: '10px', border: 'gray' } } />
+                    <input type="textarea" value={ messageBody } onChange={ messageBodyHandler } style={ { width: '100%', height: '235px', paddingBottom: '185px', paddingLeft: '10px' } } />
                   </div>
                 </Modal.Body>
 
@@ -105,23 +176,13 @@ const UserProfile = (props) => {
                     Send Message
                   </Button>
                 </Modal.Footer>
-
               </Modal>
+          </div>
 
-         
+
 
         </div>
     )
 }
 
 export default UserProfile
-// imported in ../App.js
-
-// <Switch>
-// <Route path="/messages" render={() => < Messages /> }/>
-// {/* <Route path="/signup" render={() => < SignUpForm submitHandler={signUpSubmitHandler} /> } /> */}
-
-// <Route exact path="/users" render={() => < UsersIndex user={user.user} users={user.users} likedButton={user.likedButton}/> }/>
-
-// <Route path="/users/:id" render={(routerProps) => < UserProfileComponent {...routerProps} users={user.users}/> }/>
-// </Switch>
