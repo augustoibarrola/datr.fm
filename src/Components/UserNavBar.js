@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import * as ReactBootStrap from 'react-bootstrap'
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom'
-import UserProfile from './UserProfile'
 import UsersIndex from '../Containers/UsersIndex'
+import UserProfile from './UserProfile'
 import SignInForm from './SignInForm'
 import SignUpForm from './SignUpForm'
 
 
 
-
 const UserNavBar = (props) => {
+    console.log("props at usernavbar component => ", props)
 
     const [presentUser, setPresentUser ] = useState(props.user)
 

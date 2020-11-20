@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Nav, Card, CardDeck, Col, Image, Button, Modal, Accordion, Form, FormControl, InputGroup, ListGroup, Popover, Tooltip, OverlayTrigger, Alert }  from 'react-bootstrap'
+import { Nav, Card, CardDeck, Col, Image, Button, Modal, Accordion, Form, FormControl,
+        InputGroup, ListGroup, Popover, Tooltip, OverlayTrigger, Alert }  from 'react-bootstrap'
 import { Layout } from 'antd';
 import { Link } from 'react-router-dom'
-import Lastfm from './Lastfm.js'
-import MusicMessage from './MusicMessage.js'
+import Lastfm from '../Components/Lastfm.js'
+import MusicMessage from '../Components/MusicMessage.js'
 
-const PresentUserProfileComponent = (props) => {
-  console.log("props at presentUserprofilecomponent", props)
+const PresentUserProfile = (props) => {
+  console.log("props at PresentUserProfile", props)
   
       const [showModal, setShowModal] = useState(false)
       const [showLastfmData, setShowLastfmData] = useState(false)
@@ -22,13 +23,8 @@ const PresentUserProfileComponent = (props) => {
       
       const [showMusicMessageModal, setShowMusicMessageModal] = useState(false)
       const [sender, setSender] = useState(props.user)
-      // const [recipient, setRecipient] = useState('')
-      // const [msgBody, setMsgBody] = useState('')
-      const [selectedAlbum, setSelectedAlbum] = useState('')
 
-      // const msgBodyHandler = (event) => {
-      //   setMsgBody(event.target.value)
-      // }
+      const [selectedAlbum, setSelectedAlbum] = useState('')
 
       const deleteAlertToggle = (event) => {
         event.preventDefault()
@@ -111,7 +107,7 @@ const PresentUserProfileComponent = (props) => {
     return(
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
 
-        <div className="user-div" style={{maxWidth: '880px'}}>
+        <div className="user-div" style={{width: '65%'}}>
 
           <div className="user-usernametitle-div" style={ { display: 'flex', flexDirection: 'row' , paddingBottom: '30px'} }>
             <h1 style={ {  paddingRight: '15px' } }> {props.user.username} </h1> 
@@ -131,17 +127,24 @@ const PresentUserProfileComponent = (props) => {
                   <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> Email </h4> </ListGroup.Item>
                   <ListGroup.Item style={ { background: '#fcd7d4' } } > <em> {props.user.email} </em> </ListGroup.Item>
                 </ListGroup>
+                <ListGroup variant="flush">
+                  <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> Last.fm </h4> </ListGroup.Item>
+                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <form>  <Button variant="outline-primary" onClick={ event => {
+                    console.log(event.target)
+                    setShowLastfmData(true)
+                    props.lastfmHandler(event)
+                  }} > <em> {props.user.lastfm_username} </em>   </Button> </form>  </ListGroup.Item>
+                </ListGroup>
+                <ListGroup variant="flush">
+                  <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> New Album ? </h4> </ListGroup.Item>
+                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <em> place module button here  </em> </ListGroup.Item>
+                </ListGroup>
               </div>
 
               <div className="user-useremail-div" style={ { display: 'flex', flexDirection: 'row' , padding: '20px'} }>
               </div>
 
             </div>
-
-            {/* <div className="delete-user-warning-div">
-              {  deleteAlert ? <Alert variant="danger" onClose={ () => setDeleteAlert(false) } dismissible > <Alert.Heading> You're About To Delete Your Datr.fm Account! </Alert.Heading><p> Deleting your user account is permanent, and cannot be undone. Are you sure you want to contine? </p> </Alert> : null }
-            </div> */}
-
 
             
             <div>{/* button that adds description with modal */}
@@ -207,54 +210,8 @@ const PresentUserProfileComponent = (props) => {
             </div>
 
 
-
-
-            {/* !! !! !! !! */}
-
-            { showMusicMessageModal ? <MusicMessage user={props.user} userUsername={userUsername} users={props.users} selectedAlbum={selectedAlbum} handleMusicMessageModalClose={handleMusicMessageModalClose} directMusicMessageHandler={props.directMusicMessageHandler} /> : null }
-            
-            
-            {/* !! !! !! */}
-            {/* MUSIC DM MODAL */}
-                  {/* IMPORT FROM MUSICMESSAGE.JS */}
-            {/* <div className="musicmessage-modal-div">
-              <Modal show={showMusicMessageModal} onHide={handleMusicMessageModalClose}>
-
-                <Modal.Header closeButton> 
-                  <Modal.Title> New Message </Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                  <Form.Label >From:  </Form.Label>
-                  <Form.Control type="text" placeholder={`${userUsername} (Me)`} disabled />
-                  <Form.Group controlId="exampleForum.SelectCustom">
-                    <Form.Label> To </Form.Label> 
-                    <Form.Control as="select" value={recipient} onChange={(event) => setRecipient(event.target.value)} custom >
-                    {usersArray.map(user => <option value={user.name} id={user.id}> {user.name} </option>)} 
-                    </Form.Control>
-                </Form.Group>
-                  <div className="text-input-div" style={ { paddingTop: 'inherit' } }>
-                    <input type="textarea" value={ `${msgBody} + ${selectedAlbum}` } onChange={ event => msgBodyHandler(event) } style={ { width: '100%', height: '235px', paddingBottom: '185px', paddingLeft: '10px' } } />
-                  </div>
-                </Modal.Body>
-
-                <Modal.Footer>
-                  <Button variant="outline-secondary" onClick={ handleModalClose }>
-                    Close
-                  </Button>
-
-                  <Button id={props.user.id} variant="outline-primary" onClick={ (event) => {
-                    props.directMusicMessageHandler(event, msgBody)
-                    setMsgBody('')
-                    handleModalClose()
-                  } } >
-                    Send Message
-                  </Button>
-
-                </Modal.Footer>
-              </Modal>
-            </div> */}
-
+            { showMusicMessageModal ? <MusicMessage user={props.user} userUsername={userUsername} users={props.users} selectedAlbum={selectedAlbum} handleMusicMessageModalClose={handleMusicMessageModalClose} directMusicMessageHandler={props.directMusicMessageHandler} favoriteAlbumHandler={props.favoriteAlbumHandler}/> : null }
+ 
           </div>
 
           <div className="user-edit-controls-div" style={ { padding: '20px' } }>
@@ -275,8 +232,6 @@ const PresentUserProfileComponent = (props) => {
             </OverlayTrigger>
           </div>
 
-
-          {/* Last.fm weekly albums fetch request activated by button inside of accordion component */}
           <Accordion >
             <Card>
               <Card.Header>
@@ -327,5 +282,5 @@ const PresentUserProfileComponent = (props) => {
     )
 }
 
-export default PresentUserProfileComponent
+export default PresentUserProfile
 // imported in ../Containers/UsersIndex.js

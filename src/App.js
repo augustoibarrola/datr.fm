@@ -7,7 +7,7 @@ import UserProfile from './Components/UserProfile.js'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Welcome from './Components/Welcome.js'
 import UsersIndex from './Containers/UsersIndex.js'
-import PresentUserProfileComponent from './Components/PresentUserProfileComponent.js'
+import PresentUserProfile from './Containers/PresentUserProfile.js'
 import UserProfileWidget from './Components/UserProfileWidget.js'
 import Messages from './Containers/Messages.js'
 import NewMessage from './Components/NewMessage.js'
@@ -17,6 +17,7 @@ const App = () => {
 
   const usersAPI_URL = 'http://localhost:3000/users/'
   const heartsAPI_URL = 'http://localhost:3000/hearts/'
+  const albumsAPI_URL = 'http://localhost:3000/albums/'
   const messagesAPI_URL = 'http://localhost:3000/messages/'
   const lastfmKey = process.env.REACT_APP_LASTFM_KEY
   const token = localStorage.getItem("token")
@@ -218,8 +219,10 @@ const App = () => {
 
   const lastfmHandler = (event) => {
     event.preventDefault()
+    console.log(event)
+    console.log(event.target[0])
     console.log("lastfmhandler success", event.target[0].value)
-    let lastfmUsername = event.target[0].value
+    let lastfmUsername = event.target[0].value 
     fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=${lastfmUsername}&api_key=${lastfmKey}&format=json`)
     .then( response => {
         if (response.ok) {
@@ -256,19 +259,38 @@ const App = () => {
     console.log("msgBody at DMMH => ", msgBody)
   }
 
-  // useEffect(() => {
-  //    fetch(`http://ws.audioscrobbler.com/2.0/?method=tag.getTopTags&api_key=${lastfmKey}&format=json`)
-  //     .then(response => {
-  //       if (response.ok) {
-  //         return response.json();
-  //       }
-  //       throw new Error('error')
-  //     })
-  //     .then( data =>{
-  //        console.log("returned tags from last.fm => ", data)
-  //        setLastfmTags(data.toptags.tag)
-  //     })
-  // }, [])
+  
+  
+  const favoriteAlbumHandler = (event, selectedAlbum) => {
+    console.log("EVENT => ", event )
+    console.log("EVENT TARGET => ", event.target)
+    console.log("SELECTED ALBUM => ", selectedAlbum)
+
+    fetch(albumsAPI_URL, {
+      method: 'POST',
+      headers: {
+        // 'Authorization': `Bearer <token>`,
+        "content-type": "application/json",
+        "accepts": "application/json"
+      },
+      body: JSON.stringify({ 
+        user_id: presentUser.id, 
+        name: selectedAlbum.name, 
+        artist_name: selectedAlbum.artist["#text"], 
+        image_url: ""
+
+        // t.bigint "user_id"
+        // t.string "name"
+        // t.string "artist_name"
+        // t.string "image_url"
+        // t.datetime "created_at", precision: 6, null: false
+        // t.datetime "updated_at", precision: 6, null: false
+        // t.index ["user_id"], name: "index_albums_on_user_id"
+      })
+      .then(response => response.json())
+      .then(data => console.log("response data favorting album => ", data))
+    })
+  }
 
 
   useEffect(() =>  {
@@ -299,7 +321,7 @@ const App = () => {
 
             <Route path="/users" render={() => presentUser ? < UsersIndex user={presentUser} users={users} likedButton={likedButton}/>  :  <Redirect to="/"/> }/>
 
-            <Route path="/lastfm" render={() => < Lastfm user={presentUser} /> }/>
+            <Route path="/lastfm" render={() => < Lastfm user={presentUser} favoriteAlbumHandler={favoriteAlbumHandler} /> }/>
             {/* Make above for last.fm sign in route.  */}
 
             <Route path="/signin" render={() =>  presentUser ? <Redirect to="/"/> : < SignInForm signInSubmitHandler={() => signInSubmitHandler}/>  }/>
@@ -314,7 +336,7 @@ const App = () => {
 
             <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> :  <Redirect to="/"/>  } />
 
-            <Route path="/" render={() => presentUser ? < PresentUserProfileComponent user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} directMusicMessageHandler={directMusicMessageHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < PresentUserProfile user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} directMusicMessageHandler={directMusicMessageHandler} favoriteAlbumHandler={favoriteAlbumHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 

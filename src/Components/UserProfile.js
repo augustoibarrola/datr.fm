@@ -5,7 +5,7 @@ import Messages from '../Containers/Messages.js'
 import Lastfm from './Lastfm.js'
 import UserNavBar from './UserNavBar.js'
 import UsersIndex from '../Containers/UsersIndex.js'
-import PresentUserProfileComponent from './PresentUserProfileComponent.js'
+import PresentUserProfile from '../Containers/PresentUserProfile.js'
 import { propTypes } from 'react-bootstrap/esm/Image'
 
 

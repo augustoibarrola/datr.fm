@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PresentUserProfileComponent from '../Components/PresentUserProfileComponent.js'
+import PresentUserProfile from '../Containers/PresentUserProfile.js'
 import { CardDeck, InputGroup, FormControl } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
 import UserProfileWidget from '../Components/UserProfileWidget.js'
