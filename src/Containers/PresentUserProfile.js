@@ -7,7 +7,6 @@ import Lastfm from '../Components/Lastfm.js'
 import MusicMessage from '../Components/MusicMessage.js'
 
 const PresentUserProfile = (props) => {
-  console.log("props at PresentUserProfile", props)
   
       const [showModal, setShowModal] = useState(false)
       const [showLastfmData, setShowLastfmData] = useState(false)
@@ -72,16 +71,11 @@ const PresentUserProfile = (props) => {
       }
 
       const musicMessageToggle = (event, album) => {
-        console.log(selectedAlbum)
 
         setSelectedAlbum(album)
 
-        console.log(selectedAlbum)
         event.preventDefault()
-        console.log(event.target)
-        console.log(album)
         handleMusicMessageModalShow()
-        console.log("SELECTED ALBUM => ", selectedAlbum)
     }
 
       const cardStyling = {
@@ -130,7 +124,6 @@ const PresentUserProfile = (props) => {
                 <ListGroup variant="flush">
                   <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> Last.fm </h4> </ListGroup.Item>
                   <ListGroup.Item style={ { background: '#fcd7d4' } } > <form>  <Button variant="outline-primary" onClick={ event => {
-                    console.log(event.target)
                     setShowLastfmData(true)
                     props.lastfmHandler(event)
                   }} > <em> {props.user.lastfm_username} </em>   </Button> </form>  </ListGroup.Item>

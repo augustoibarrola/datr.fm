@@ -48,7 +48,6 @@ const App = () => {
     })
     .then(response => response.json())
     .then(data => {
-      console.log("data at sign in handler", data)
       localStorage.setItem("token", data.jwt)
       setPresentUser(data.user)
     })
@@ -91,7 +90,6 @@ const App = () => {
       })
       .then(response => response.json())
       .then(newUser => {
-        console.log("NEW_USER => ", newUser)
         localStorage.setItem("token", newUser.jwt)
         setPresentUser(newUser.user)
       })
@@ -107,17 +105,13 @@ const App = () => {
 
   const likedButton = (event) => {
     event.preventDefault()
-    console.log("presentUser liking someone ==>", presentUser)
-    console.log("person being liked ==>", event.target.id)
 
     let liker_id = presentUser.id
     let liked_id = event.target.id
     let likedUsers = presentUser.liked_users.filter(hearts => hearts.liked_id == liked_id )
 
-    console.log(" liked users in liked handler", likedUsers)
 
     if (likedUsers.length > 0) {
-      console.log("you've already liked this user")
     } else if ( likedUsers.length <= 0 ) {
       fetch('http://localhost:3000/hearts', {
        method: 'POST', 
@@ -138,7 +132,6 @@ const App = () => {
 
   const messagesSubmitHandler = (event, recipient) => {
     event.preventDefault()
-    console.log("event when submitting new message => ", event)
     
     let sender_id = presentUser.id
     let sendee = users.filter(user => user.name == recipient)
@@ -161,8 +154,6 @@ const App = () => {
      })
      .then(response => response.json())
      .then(data => {
-         console.log("POST_REQUEST_MESSAGES_RESPONSE => ", data)
-         console.log("present user when new message comes back from fetch", presentUser)
          setPresentUserSentMessages(presentUser.messages_sent.push(data.new_message))
      })
   }
@@ -197,8 +188,6 @@ const App = () => {
     presentUser.username = userUsername
     presentUser.email = userEmail
     presentUser.image_url = userProfileUrl
-    console.log("PRESENTUSER AT PATCH HANDLER =>", presentUser )
-    console.log(event.target)
 
 
      fetch(usersAPI_URL + presentUser.id, {
@@ -212,16 +201,12 @@ const App = () => {
      })
      .then(response => response.json())
      .then(patchedUser => {
-       console.log("UPDATED USER  AT USERUPDATEHANDLER=> ", patchedUser )
         setPresentUser(patchedUser)
      })
   }
 
   const lastfmHandler = (event) => {
     event.preventDefault()
-    console.log(event)
-    console.log(event.target[0])
-    console.log("lastfmhandler success", event.target[0].value)
     let lastfmUsername = event.target[0].value 
     fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getweeklyalbumchart&user=${lastfmUsername}&api_key=${lastfmKey}&format=json`)
     .then( response => {
@@ -237,7 +222,6 @@ const App = () => {
 
   const deleteHandler = (event) => {
 
-    console.log("event at deletehandler execution => ", event.target)
     fetch(usersAPI_URL + presentUser.id, {
       method: 'DELETE', 
       headers: {
@@ -255,16 +239,11 @@ const App = () => {
 
   const directMusicMessageHandler = (event, msgBody) => {
 
-    console.log("props at direct music message handler => ", event)
-    console.log("msgBody at DMMH => ", msgBody)
   }
 
   
   
   const favoriteAlbumHandler = (event, selectedAlbum) => {
-    console.log("EVENT => ", event )
-    console.log("EVENT TARGET => ", event.target)
-    console.log("SELECTED ALBUM => ", selectedAlbum)
 
     fetch(albumsAPI_URL, {
       method: 'POST',
@@ -310,6 +289,7 @@ const App = () => {
 
   return (
     <div>
+    {console.log(presentUser)}
       <UserNavBar user={presentUser} users={users} />
       <div className="ux-body">
          <Switch>

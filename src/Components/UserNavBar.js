@@ -9,7 +9,6 @@ import SignUpForm from './SignUpForm'
 
 
 const UserNavBar = (props) => {
-    console.log("props at usernavbar component => ", props)
 
     const [presentUser, setPresentUser ] = useState(props.user)
 
