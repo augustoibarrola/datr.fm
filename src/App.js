@@ -57,10 +57,11 @@ const App = () => {
       event.preventDefault()
       let name = event.target[0].value
       let userName = event.target[1].value
-      let imageUrl = event.target[2].value
-      let email = event.target[3].value
+      let age = event.target[2].value
+      let imageUrl = event.target[3].value
+      let email = event.target[4].value
+      let password = event.target[5].value
       let description = ''
-      let password = event.target[4].value
 
       fetch(usersAPI_URL, {
           method: 'POST', 
@@ -72,7 +73,7 @@ const App = () => {
           body: JSON.stringify({ 
               user: {
                   name: name,
-                  // age: 
+                  age: age,
                   username: userName,
                   email: email,
                   description: description,
