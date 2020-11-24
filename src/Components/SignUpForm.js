@@ -8,6 +8,8 @@ const SignUpForm = (props) => {
         paddingBottom: '15px'
     }
 
+    const ageRange = [...Array(101).keys()]
+
     return(
         <div> 
             <div style={signUpHeadingStyling}>
@@ -23,6 +25,13 @@ const SignUpForm = (props) => {
                 <Form.Group controlId="formGroupUsername">
                     <Form.Label>Username</Form.Label>  
                         <FormControl id="inlineFormInputGroup" placeholder="Username" />     
+                </Form.Group>
+
+                <Form.Group > 
+                    <Form.Label>Age</Form.Label>
+                    <Form.Control as="select" custom> 
+                        {ageRange.map(age => <option> {age} </option>)}
+                    </Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId="formGroupProfile Picture Url">
