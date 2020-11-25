@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 import { Link } from 'react-router-dom'
 import Lastfm from '../Components/Lastfm.js'
 import MusicMessage from '../Components/MusicMessage.js'
+import UserFavoriteAlbums from '../Components/UserFavoriteAlbums.js'
 
 const PresentUserProfile = (props) => {
   
@@ -261,6 +262,9 @@ const PresentUserProfile = (props) => {
             </Card>
             
           </Accordion>
+
+          <UserFavoriteAlbums user={props.user} albums={props.user.albums}  />
+
         </div>
 
     

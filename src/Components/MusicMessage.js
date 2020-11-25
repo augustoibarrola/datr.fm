@@ -45,7 +45,10 @@ const MusicMessage = (props) => {
 
             <Modal.Footer>
 
-                <Button variant="outline-success" onClick={ (event) => props.favoriteAlbumHandler(event, selectedAlbum) }>
+                <Button variant="outline-success" onClick={ (event) => {
+                    props.handleMusicMessageModalClose()
+                    props.favoriteAlbumHandler(event, selectedAlbum)
+                } }>
                 Favorite Album
                 </Button>
 

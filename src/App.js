@@ -246,10 +246,10 @@ const App = () => {
   
   const favoriteAlbumHandler = (event, selectedAlbum) => {
 
-    fetch(albumsAPI_URL, {
+    fetch('http://localhost:3000/albums', {
       method: 'POST',
       headers: {
-        // 'Authorization': `Bearer <token>`,
+        'Authorization': `Bearer ${token}`,
         "content-type": "application/json",
         "accepts": "application/json"
       },
@@ -258,18 +258,10 @@ const App = () => {
         name: selectedAlbum.name, 
         artist_name: selectedAlbum.artist["#text"], 
         image_url: ""
-
-        // t.bigint "user_id"
-        // t.string "name"
-        // t.string "artist_name"
-        // t.string "image_url"
-        // t.datetime "created_at", precision: 6, null: false
-        // t.datetime "updated_at", precision: 6, null: false
-        // t.index ["user_id"], name: "index_albums_on_user_id"
       })
-      .then(response => response.json())
-      .then(data => console.log("response data favorting album => ", data))
     })
+    .then(response => response.json())
+    .then(data => console.log("response data favorting album => ", data))
   }
 
 
