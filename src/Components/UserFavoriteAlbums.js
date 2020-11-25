@@ -17,7 +17,7 @@ const UserFavoriteAlbums = ({ user, albums, deleteHandler }) => {
                     <Card.Body>
     
                         <ListGroup variant="flush">
-                            {albums.map(album => <ListGroup.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>{album.name} <button id={album.id} onClick={(event) => deleteHandler(event, album.id)}> x </button></ListGroup.Item>)}
+    {albums.map(album => <ListGroup.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}> <div> <strong> {album.name} </strong> by <em> {album.artist_name} </em> </div> <button id={album.id} onClick={(event) => deleteHandler(event, album.id)}> x </button></ListGroup.Item>)}
                         </ListGroup>
 
                     <Form.Text id="passwordHelpBlock" muted>
