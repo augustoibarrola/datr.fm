@@ -26,6 +26,7 @@ const App = () => {
 
   const [users, setUsers] = useState([])
   const [presentUser, setPresentUser] = useState('')
+  const [presentUserFavoriteAlbums, setPresentUserFavoriteAlbums] = useState('')
   const [presentUserSentMessages, setPresentUserSentMessages ] = useState('')
   const [presentToken, setPresentToken] = useState('')
   const [lastfmReturnData, setLastfmReturnData ] = useState('')
@@ -50,6 +51,7 @@ const App = () => {
     .then(data => {
       localStorage.setItem("token", data.jwt)
       setPresentUser(data.user)
+      setPresentUserFavoriteAlbums(data.user.albums)
     })
   }
 
@@ -261,8 +263,34 @@ const App = () => {
       })
     })
     .then(response => response.json())
-    .then(data => console.log("response data favorting album => ", data))
+    .then(data => {
+      setPresentUserFavoriteAlbums([data.album, ...presentUserFavoriteAlbums])
+    })
   }
+
+  const favoriteAlbumDeleteHandler = (event, album) => {
+    console.log(event)
+    console.log(event.target)
+    console.log(album)
+
+    fetch(albumsAPI_URL + album, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "content-type": "application/json",
+        "accepts": "application/json"
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      // setPresentUserFavoriteAlbums([data.album, ...presentUserFavoriteAlbums])
+      console.log(data)
+      let favAlbums = presentUserFavoriteAlbums.filter(element => element.id !== data.album.id)
+      console.log(favAlbums)
+      setPresentUserFavoriteAlbums(favAlbums)
+    })
+  }
+
 
 
   useEffect(() =>  {
@@ -309,7 +337,7 @@ const App = () => {
 
             <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> :  <Redirect to="/"/>  } />
 
-            <Route path="/" render={() => presentUser ? < PresentUserProfile user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} directMusicMessageHandler={directMusicMessageHandler} favoriteAlbumHandler={favoriteAlbumHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < PresentUserProfile user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} directMusicMessageHandler={directMusicMessageHandler} favoriteAlbumHandler={favoriteAlbumHandler} presentUserFavoriteAlbums={presentUserFavoriteAlbums} favoriteAlbumDeleteHandler={favoriteAlbumDeleteHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 

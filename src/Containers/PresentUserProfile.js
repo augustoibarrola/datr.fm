@@ -263,7 +263,7 @@ const PresentUserProfile = (props) => {
             
           </Accordion>
 
-          <UserFavoriteAlbums user={props.user} albums={props.user.albums}  />
+          <UserFavoriteAlbums user={props.user} albums={props.presentUserFavoriteAlbums} deleteHandler={props.favoriteAlbumDeleteHandler} />
 
         </div>
 

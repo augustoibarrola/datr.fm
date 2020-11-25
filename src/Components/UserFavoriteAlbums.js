@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Accordion, Card, Form, FormControl, InputGroup, Button } from 'react-bootstrap'
+import { Accordion, Card, Form, FormControl, InputGroup, ListGroup, Button } from 'react-bootstrap'
 
-const UserFavoriteAlbums = ({ user, albums }) => {
+const UserFavoriteAlbums = ({ user, albums, deleteHandler }) => {
     console.log(user)
     console.log(albums)
     return(
@@ -15,23 +15,11 @@ const UserFavoriteAlbums = ({ user, albums }) => {
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
                     <Card.Body>
-                    
-
-                        <InputGroup className="mb-3">
-                            <InputGroup.Prepend>
-                                <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <FormControl
-                                placeholder="Username"
-                                aria-label="Username"
-                                aria-describedby="basic-addon1"
-                            />
-                            <InputGroup.Append>
-                                <Button variant="outline-danger" type="submit" > Submit </Button>
-                            </InputGroup.Append>
-                        </InputGroup>
-
     
+                        <ListGroup variant="flush">
+                            {albums.map(album => <ListGroup.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>{album.name} <button id={album.id} onClick={(event) => deleteHandler(event, album.id)}> x </button></ListGroup.Item>)}
+                        </ListGroup>
+
                     <Form.Text id="passwordHelpBlock" muted>
                         {user.username}'s favorite albums
                     </Form.Text>
