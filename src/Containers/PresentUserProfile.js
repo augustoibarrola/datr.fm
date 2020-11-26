@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import Lastfm from '../Components/Lastfm.js'
 import MusicMessage from '../Components/MusicMessage.js'
 import UserFavoriteAlbums from '../Components/UserFavoriteAlbums.js'
+import SpotifySearch from '../Components/SpotifySearch.js';
 
 const PresentUserProfile = (props) => {
   
@@ -132,6 +133,10 @@ const PresentUserProfile = (props) => {
                 <ListGroup variant="flush">
                   <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> New Album ? </h4> </ListGroup.Item>
                   <ListGroup.Item style={ { background: '#fcd7d4' } } > <em> place module button here  </em> </ListGroup.Item>
+                </ListGroup>
+                <ListGroup variant="flush">
+                  <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> Spotify Search ? </h4> </ListGroup.Item>
+                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <SpotifySearch spotifySearch={props.spotifySearch} /> </ListGroup.Item>
                 </ListGroup>
               </div>
 

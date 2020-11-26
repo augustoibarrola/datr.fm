@@ -14,10 +14,10 @@ const UserFavoriteAlbums = ({ user, albums, deleteHandler }) => {
                     </Accordion.Toggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
-                    <Card.Body>
+                    <Card.Body style={{ maxHeight: '185px', overflow: 'auto' }}>
     
                         <ListGroup variant="flush">
-    {albums.map(album => <ListGroup.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}> <div> <strong> {album.name} </strong> by <em> {album.artist_name} </em> </div> <button id={album.id} onClick={(event) => deleteHandler(event, album.id)}> x </button></ListGroup.Item>)}
+    {user.albums.map(album => <ListGroup.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}> <div> <strong> {album.name} </strong> by <em> {album.artist_name} </em> </div> <button id={album.id} onClick={(event) => deleteHandler(event, album.id)}> x </button></ListGroup.Item>)}
                         </ListGroup>
 
                     <Form.Text id="passwordHelpBlock" muted>

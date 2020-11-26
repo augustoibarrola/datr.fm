@@ -291,6 +291,25 @@ const App = () => {
     })
   }
 
+  const spotifySearch = (event) => {
+    event.preventDefault()
+    console.log("success => ", event)
+    console.log(event.target[0].value) // the string value of what is being searched for at the time of button submission 
+
+    fetch('http://localhost:3000/tracks/top_100', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "content-type": "application/json",
+        "accepts": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+
+
+  }
+
 
 
   useEffect(() =>  {
@@ -337,7 +356,7 @@ const App = () => {
 
             <Route path="/messages" render={() => presentUser ? < Messages user={presentUser} users={users} messagesSubmitHandler={messagesSubmitHandler} presentUserSentMessages={presentUserSentMessages}/> :  <Redirect to="/"/>  } />
 
-            <Route path="/" render={() => presentUser ? < PresentUserProfile user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} directMusicMessageHandler={directMusicMessageHandler} favoriteAlbumHandler={favoriteAlbumHandler} presentUserFavoriteAlbums={presentUserFavoriteAlbums} favoriteAlbumDeleteHandler={favoriteAlbumDeleteHandler} /> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
+            <Route path="/" render={() => presentUser ? < PresentUserProfile user={presentUser} users={users} likedButton={likedButton} lastfmData={lastfmReturnData} userUpdateHandler={userUpdateHandler} lastfmHandler={lastfmHandler} deleteHandler={deleteHandler} directMusicMessageHandler={directMusicMessageHandler} favoriteAlbumHandler={favoriteAlbumHandler} presentUserFavoriteAlbums={presentUserFavoriteAlbums} favoriteAlbumDeleteHandler={favoriteAlbumDeleteHandler} spotifySearch={spotifySearch}/> : < SignInForm signInSubmitHandler={signInSubmitHandler}/> } />
 
         </Switch>
 
