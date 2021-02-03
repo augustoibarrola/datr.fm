@@ -22,8 +22,6 @@ const App = () => {
   const lastfmKey = process.env.REACT_APP_LASTFM_KEY
   const token = localStorage.getItem("token")
 
-
-
   const [users, setUsers] = useState([])
   const [presentUser, setPresentUser] = useState('')
   const [presentUserFavoriteAlbums, setPresentUserFavoriteAlbums] = useState('')
@@ -32,6 +30,7 @@ const App = () => {
   const [lastfmReturnData, setLastfmReturnData ] = useState('')
   const [lastfmtags, setLastfmTags] = useState('')
 
+  //handles signing in  
   const signInSubmitHandler = (event) => {
     event.preventDefault()
     let username = event.target[0].value
@@ -55,6 +54,7 @@ const App = () => {
     })
   }
 
+  //handles signing up a new user. 
   const signUpSubmitHandler = (event) => {
       event.preventDefault()
       let name = event.target[0].value
@@ -81,13 +81,6 @@ const App = () => {
                   description: description,
                   image_url: imageUrl,
                   password: password
-                  // t.string "name"
-                  // t.integer "age"
-                  // t.string "username"
-                  // t.string "email"
-                  // t.text "description"
-                  // t.string "image_url"
-                  // t.string "password_digest"
               }
           })
       })
@@ -283,7 +276,6 @@ const App = () => {
     })
     .then(response => response.json())
     .then(data => {
-      // setPresentUserFavoriteAlbums([data.album, ...presentUserFavoriteAlbums])
       console.log(data)
       let favAlbums = presentUserFavoriteAlbums.filter(element => element.id !== data.album.id)
       console.log(favAlbums)
@@ -293,10 +285,10 @@ const App = () => {
 
   const spotifySearch = (event) => {
     event.preventDefault()
-    console.log("success => ", event)
+
     console.log(event.target[0].value) // the string value of what is being searched for at the time of button submission 
 
-    fetch('http://localhost:3000/tracks/top_100', {
+    fetch('http://localhost:3000/tracks/top_100/', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

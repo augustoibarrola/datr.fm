@@ -84,20 +84,11 @@ const PresentUserProfile = (props) => {
         border: 'none'
       }
 
-      const imageStyle = {
-        maxWidth: '500px'
-      }
-
-
       const userCardStyling = {
         maxWidth: 'max-content',
         paddingBottom: '20px',
         display: 'flex', 
         flexDirection: 'row'
-      }
-
-      const userCardBodyStyling = {
-        
       }
 
     return(
@@ -110,7 +101,7 @@ const PresentUserProfile = (props) => {
           </div>
 
           <div className="user-card" style={userCardStyling}> 
-            <Image className="user-profile-component-circled-image" style={imageStyle} src={props.user.image_url} roundedCircle />
+            <Image className="user-profile-component-circled-image" src={props.user.image_url} roundedCircle />
 
             <div className="user-card-body" style={{ width: 'maxContent', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', maxWidth: '630px' } }> 
 

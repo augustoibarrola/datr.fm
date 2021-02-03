@@ -3,7 +3,7 @@ import { Card, CardDeck, ListGroup } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const WeeklyAlbumsWidget = ( props ) => {
-    console.log("props at album widget", props.album)
+    // console.log("props at album widget", props.album)
 
     const [album, setAlbum] = useState('')
 

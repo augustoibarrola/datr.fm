@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Accordion, Card, Form, FormControl, InputGroup, ListGroup, Button } from 'react-bootstrap'
 
 const UserFavoriteAlbums = ({ user, albums, deleteHandler }) => {
-    console.log(user)
     console.log(albums)
+
+
     return(
         <div>
             <Accordion >
@@ -17,7 +18,7 @@ const UserFavoriteAlbums = ({ user, albums, deleteHandler }) => {
                     <Card.Body style={{ maxHeight: '185px', overflow: 'auto' }}>
     
                         <ListGroup variant="flush">
-    {user.albums.map(album => <ListGroup.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}> <div> <strong> {album.name} </strong> by <em> {album.artist_name} </em> </div> <button id={album.id} onClick={(event) => deleteHandler(event, album.id)}> x </button></ListGroup.Item>)}
+                            {user.albums.map(album => <ListGroup.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}> <div> <strong> {album.name} </strong> by <em> {album.artist_name} </em> </div> <button id={album.id} onClick={(event) => deleteHandler(event, album.id)}> x </button></ListGroup.Item>)}
                         </ListGroup>
 
                     <Form.Text id="passwordHelpBlock" muted>

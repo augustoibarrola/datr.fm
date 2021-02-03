@@ -29,5 +29,7 @@
   } */
 
   .user-profile-component-circled-image {
-    max-width: 275px;
+    width: 700px;
+    height: auto;
+    border: solid;
   }

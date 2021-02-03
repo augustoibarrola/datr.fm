@@ -3,7 +3,6 @@ import { CardDeck, ListGroup, Form } from 'react-bootstrap'
 import WeeklyAlbumsWidget from './WeeklyAlbumsWidget.js'
 
 const Lastfm = (props) => {
-    console.log("props at lastfm component", props)
     const weeklyAlbumsDiv = {
         border: '10px',
         display: 'flex',
