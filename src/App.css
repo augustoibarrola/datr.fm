@@ -1,4 +1,4 @@
-.navbar-brand {
+  .navbar-brand {
     padding: 18px 20px;
     display: inline-block;
   }
@@ -32,4 +32,31 @@
     width: 700px;
     height: auto;
     border: solid;
+  }
+
+
+  /* presentUserProfile */
+
+  .user-container{
+    /*  */
+    background-color: yellow;
+    /*  */
+    width: 65%;
+    display: grid;
+    grid-template-rows: 10% 70% 20%;
+    grid-template-columns: 65% auto;
+  }
+  .user-container-title-row{
+    /*  */
+    background-color: orange;
+    display: grid;
+    grid-template-columns: 50% auto;
+    height: max-content;
+  }
+  #username-title{
+    text-transform: uppercase;
+  }
+  .standard-button{
+    width: min-content;
+    height: min-content;
   }

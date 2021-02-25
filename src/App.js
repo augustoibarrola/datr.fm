@@ -321,7 +321,6 @@ const App = () => {
 
   return (
     <div>
-    {console.log(presentUser)}
       <UserNavBar user={presentUser} users={users} />
       <div className="ux-body">
          <Switch>

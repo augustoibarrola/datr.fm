@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import Lastfm from '../Components/Lastfm.js'
 import MusicMessage from '../Components/MusicMessage.js'
 import UserFavoriteAlbums from '../Components/UserFavoriteAlbums.js'
-import SpotifySearch from '../Components/SpotifySearch.js';
+// import SpotifySearch from '../Components/SpotifySearch.js';
 
 const PresentUserProfile = (props) => {
   
@@ -92,52 +92,62 @@ const PresentUserProfile = (props) => {
       }
 
     return(
-      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+      <div>
 
-        <div className="user-div" style={{width: '65%'}}>
+        <div className="user-container">
 
-          <div className="user-usernametitle-div" style={ { display: 'flex', flexDirection: 'row' , paddingBottom: '30px'} }>
-            <h1 style={ {  paddingRight: '15px' } }> {props.user.username} </h1> 
+          <div className="user-container-title-row">
+
+            <div id="username-title">
+              <h1> {props.user.username} </h1>
+            </div>
+
+            <div>
+              <OverlayTrigger key="right" placement="right" overlay={
+                  <Tooltip id='popover-positioned-right'>
+                    <strong>Edit Your Profile</strong>
+                  </Tooltip>
+              }>
+                <Button variant="primary" className="standard-button" onClick={handleModalShow}>
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
+                    </svg>
+                </Button>
+              </OverlayTrigger>
+            </div>
+
           </div>
+
+          <div>
+
+          </div>
+
+          {/* <div>
+            <OverlayTrigger 
+              key="right"
+              placement="right"
+              overlay={
+                <Tooltip id='popover-positioned-right'>
+                  <strong>Edit Your Profile</strong>
+                </Tooltip>
+              }
+            >
+              <Button variant="primary" className="standard-button" onClick={handleModalShow} >
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
+                  </svg>
+              </Button>
+            </OverlayTrigger>
+          </div> */}
 
           <div className="user-card" style={userCardStyling}> 
             <Image className="user-profile-component-circled-image" src={props.user.image_url} roundedCircle />
+          </div>
 
-            <div className="user-card-body" style={{ width: 'maxContent', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', maxWidth: '630px' } }> 
-
-              <div className="user-userdescription-div" style={ { display: 'flex', flexDirection: 'column' , padding: '20px'} }>
-                <ListGroup variant="flush">
-                  <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h3> Description </h3> </ListGroup.Item>
-                  <ListGroup.Item style={ { background: '#fcd7d4', paddingBottom: '35px' } } > <em> {props.user.description} </em> </ListGroup.Item>
-                </ListGroup>
-                <ListGroup variant="flush">
-                  <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> Email </h4> </ListGroup.Item>
-                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <em> {props.user.email} </em> </ListGroup.Item>
-                </ListGroup>
-                <ListGroup variant="flush">
-                  <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> Last.fm </h4> </ListGroup.Item>
-                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <form>  <Button variant="outline-primary" onClick={ event => {
-                    setShowLastfmData(true)
-                    props.lastfmHandler(event)
-                  }} > <em> {props.user.lastfm_username} </em>   </Button> </form>  </ListGroup.Item>
-                </ListGroup>
-                <ListGroup variant="flush">
-                  <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> New Album ? </h4> </ListGroup.Item>
-                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <em> place module button here  </em> </ListGroup.Item>
-                </ListGroup>
-                <ListGroup variant="flush">
-                  <ListGroup.Item style={ { background: '#fcd7d4', paddingLeft: '30px' } } > <h4> Spotify Search ? </h4> </ListGroup.Item>
-                  <ListGroup.Item style={ { background: '#fcd7d4' } } > <SpotifySearch spotifySearch={props.spotifySearch} /> </ListGroup.Item>
-                </ListGroup>
-              </div>
-
-              <div className="user-useremail-div" style={ { display: 'flex', flexDirection: 'row' , padding: '20px'} }>
-              </div>
-
-            </div>
+        </div>
 
             
-            <div>{/* button that adds description with modal */}
+            <div>
               <Modal show={showModal} onHide={handleModalClose}>
                 <Modal.Header closeButton> 
                   <Modal.Title> Tell us about yourself </Modal.Title>
@@ -202,74 +212,7 @@ const PresentUserProfile = (props) => {
 
             { showMusicMessageModal ? <MusicMessage user={props.user} userUsername={userUsername} users={props.users} selectedAlbum={selectedAlbum} handleMusicMessageModalClose={handleMusicMessageModalClose} directMusicMessageHandler={props.directMusicMessageHandler} favoriteAlbumHandler={props.favoriteAlbumHandler}/> : null }
  
-          </div>
-
-          <div className="user-edit-controls-div" style={ { padding: '20px' } }>
-            <OverlayTrigger 
-              key="right"
-              placement="right"
-              overlay={
-                <Tooltip id='popover-positioned-right'>
-                  <strong>Edit Your Profile</strong>
-                </Tooltip>
-              }
-            >
-              <Button variant="primary" onClick={handleModalShow} style={ { width: 'min-content', height: 'min-content'} }>
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
-                  </svg>
-              </Button>
-            </OverlayTrigger>
-          </div>
-
-          <Accordion >
-            <Card>
-              <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="0" style={ { textDecoration: 'none' } }>
-                <Form.Control type="text" placeholder="Last.fm Scrobbles" readOnly style={ { width: '100%', minWidth: '100%' } }  />                
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="0">
-                <Card.Body>
-                  <form onSubmit={ (event) => {
-                    props.lastfmHandler(event)
-                    setLastfmUsername('')
-                    setShowLastfmData(true)
-                  } } >
-                    <InputGroup className="mb-3">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <FormControl
-                        placeholder="Username"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                      />
-                      <InputGroup.Append>
-                        <Button variant="outline-danger" type="submit" > Submit </Button>
-                      </InputGroup.Append>
-                    </InputGroup>
-                  </form> 
-                  <Form.Text id="passwordHelpBlock" muted>
-                    Enter {props.user.username}'s Last.fm Username to recieve their top albums this week
-                  </Form.Text>
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-            
-          </Accordion>
-
-          <UserFavoriteAlbums user={props.user} albums={props.presentUserFavoriteAlbums} deleteHandler={props.favoriteAlbumDeleteHandler} />
-
-        </div>
-
-    
-        <div>
-          { showLastfmData ? <Lastfm user={props.user}lastfmData={props.lastfmData} musicMessageToggle={musicMessageToggle}/> : null}
-        </div>
-
-    
-
+          {/* </div> */}
 
       </div>
     )

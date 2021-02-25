@@ -47,4 +47,3 @@ const UserNavBar = (props) => {
 }
 
 export default UserNavBar
-// imported in ../App.js
