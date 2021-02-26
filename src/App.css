@@ -23,38 +23,41 @@
     
   }
 
-  /* .user-card {
-    max-width: 300px;
-    padding-bottom: 20px;
-  } */
+  /* UserNavBar */
 
-  .user-profile-component-circled-image {
-    width: 700px;
-    height: auto;
-    border: solid;
+  #navbar-profile-img {
+    max-width: '65px';
+    margin: '5px';
+    border: 1px solid black;
+    border-radius: 45%;
   }
 
-
-  /* presentUserProfile */
-
+  /* PresentUserProfile */
   .user-container{
     /*  */
     background-color: yellow;
     /*  */
     width: 65%;
     display: grid;
-    grid-template-rows: 10% 70% 20%;
+    grid-template-rows: min-content 70% 20%;
     grid-template-columns: 65% auto;
   }
   .user-container-title-row{
-    /*  */
     background-color: orange;
     display: grid;
     grid-template-columns: 50% auto;
     height: max-content;
   }
-  #username-title{
+  #user-username{
     text-transform: uppercase;
+  }
+  #user-profile-img-container{
+    text-align: center;
+  }
+  #user-profile-img{
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
   }
   .standard-button{
     width: min-content;

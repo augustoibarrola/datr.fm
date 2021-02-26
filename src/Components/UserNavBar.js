@@ -12,18 +12,7 @@ const UserNavBar = (props) => {
 
     const [presentUser, setPresentUser ] = useState(props.user)
 
-    const imageStyle = {
-        maxWidth: '65px',
-        margin: '5px',
 
-    }
-
-    const navEndingStyle = {
-        display: 'flex', 
-        flexDirection: 'row',
-        paddingTop: '18px',
-        paddingRight: '18px'
-    }
     return(
         <div>
              <ReactBootStrap.Navbar collapseOnSelect expand="lg" style={ { backgroundColor: '#fcd7d4', textDecoration: 'none' } }>
@@ -37,8 +26,8 @@ const UserNavBar = (props) => {
                      {/* </ReactBootStrap.NavDropdown> */}
                  </ReactBootStrap.Nav>
                  <ReactBootStrap.Nav >
-                { props.user ? <NavLink style={navEndingStyle} to="/signout">Sign Out</NavLink> : <NavLink to="/signin"> Sign In</NavLink> } 
-                { props.user ? <ReactBootStrap.Image className="user-profile-component-circled-image" style={imageStyle} src={props.user.image_url} roundedCircle /> : null } 
+                { props.user ? <NavLink to="/signout">Sign Out</NavLink> : <NavLink to="/signin"> Sign In</NavLink> } 
+                { props.user ? <img id="navbar-profile-img " src={props.user.image_url} /> : null } 
                  </ReactBootStrap.Nav>
             </ReactBootStrap.Navbar.Collapse>
              </ReactBootStrap.Navbar>
