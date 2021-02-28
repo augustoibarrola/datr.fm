@@ -23,7 +23,7 @@ function SignInForm(props) {
     }
 
     return(
-        <div className="TEST" style={ { backgroundColor: '#fcd4e5', padding: '50px', width: '50%', borderRadius: '25px', border: '2px solid red' } }>
+        <div className="signin-container">
             <div style={signInHeadingStyling}> 
                 <h2> Sign In Please</h2>
             </div>

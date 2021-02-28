@@ -4,10 +4,9 @@
   }
 
   .ux-body {
-    padding: 45px;
-    background-color: #fcd7d4;
+    padding: 5rem 0rem 0rem 5rem ;
+    background-color: hsl(4.5, 87%, 91%);
     height: 100vh;
-    padding-left: 70px
   }
 
   .card-deck {
@@ -23,20 +22,47 @@
     
   }
 
-  /* UserNavBar */
-
-  #navbar-profile-img {
-    max-width: '65px';
-    margin: '5px';
-    border: 1px solid black;
-    border-radius: 45%;
+  /* 
+  UserNavBar 
+  */
+  .nav-bar{
+    list-style-type: none;
+      /* removes the bullet points from the <li> elements */
+    margin: 0;
+    padding: .5rem 0rem .5rem 0rem;
+    overflow: hidden;
+      /* sets the behaviour for content that goes beyond the container */
+    background-color: hsl(4.5, 87%, 75.9%);
+    border: 2px solid hsl(4.6, 86.8%, 64.3%);
+    position: fixed;
+    width: 100%;
+  }
+  .nav-bar-li{
+    float:left;
+    display: block;
+    color: white; 
+    text-align: center; 
+    padding: 0rem 1rem 0rem 1rem;
+    margin: 0rem 1rem 0rem 1rem;
   }
 
-  /* PresentUserProfile */
+  /*
+  SignInForm 
+  */
+  .signin-container{
+    background-color: #fcd4e5;
+    padding: 2rem 1.5rem 2.5rem 2rem;
+
+    width: 50%;
+    border-radius: 25px;
+    border: 2px solid hsl(4.6, 86.8%, 64.3%);
+  }
+
+  /* 
+  PresentUserProfile 
+  */
   .user-container{
-    /*  */
     background-color: yellow;
-    /*  */
     width: 65%;
     display: grid;
     grid-template-rows: min-content 70% 20%;
