@@ -102,13 +102,12 @@ const App = () => {
   const likedButton = (event) => {
     event.preventDefault()
 
-    let liker_id = presentUser.id
     let liked_id = event.target.id
     let likedUsers = presentUser.liked_users.filter(hearts => hearts.liked_id == liked_id )
+    console.log(likedUsers)
 
-
-    if (likedUsers.length > 0) {
-    } else if ( likedUsers.length <= 0 ) {
+    if (likedUsers.length == []) {
+      console.log("NOT A FRIEND YET")
       fetch('http://localhost:3000/hearts', {
        method: 'POST', 
        headers: {
@@ -123,6 +122,9 @@ const App = () => {
      })
      .then(response => response.json())
      .then(console.log)
+    } else if ( likedUsers.length >= 0 ) {
+      console.log("ALREADY A FRIEND")
+      
     }
   }
 

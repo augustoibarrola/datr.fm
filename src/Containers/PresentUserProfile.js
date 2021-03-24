@@ -9,6 +9,7 @@ import UserFavoriteAlbums from '../Components/UserFavoriteAlbums.js'
 // import SpotifySearch from '../Components/SpotifySearch.js';
 
 const PresentUserProfile = (props) => {
+  console.log(props)
   
       const [showModal, setShowModal] = useState(false)
       const [showLastfmData, setShowLastfmData] = useState(false)
@@ -116,6 +117,18 @@ const PresentUserProfile = (props) => {
             <img id="user-profile-img" src={props.user.image_url} />
           </div>
 
+          <div>
+            <p>{props.user.description}</p>
+          </div>
+
+          <div>
+
+          </div>
+
+          <div>
+
+          </div>
+
         </div>
 
             
@@ -184,7 +197,9 @@ const PresentUserProfile = (props) => {
 
             { showMusicMessageModal ? <MusicMessage user={props.user} userUsername={userUsername} users={props.users} selectedAlbum={selectedAlbum} handleMusicMessageModalClose={handleMusicMessageModalClose} directMusicMessageHandler={props.directMusicMessageHandler} favoriteAlbumHandler={props.favoriteAlbumHandler}/> : null }
  
-          {/* </div> */}
+        <div>
+          {/* friend's list goes here */}
+        </div>
 
       </div>
     )

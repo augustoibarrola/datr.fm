@@ -7,6 +7,7 @@
     padding: 5rem 5rem 5rem 5rem ;
     background-color: hsl(4.5, 87%, 91%);
     height: 125vh;
+    overflow: auto;
   }
 
   .card-deck {
@@ -36,6 +37,7 @@
     height: 2.5rem;
     display: flex;
     align-items: center;
+    z-index: 1;
   }
   .nav-bar-li{
     float:left;
@@ -69,17 +71,21 @@
   PresentUserProfile 
   */
   .user-container{
-    background-color: yellow;
+    /* background-color: yellow; */
     width: 65%;
     display: grid;
     grid-template-rows: min-content 70% 20%;
     grid-template-columns: 65% auto;
+    background-color: hsl(4.5, 87%, 75.9%);
+    border: 2px solid hsl(4.6, 86.8%, 64.3%);
+    border-radius: 25px;
+    padding: 1rem 0rem 0rem 2rem;
   }
   .user-container-title-row{
-    background-color: orange;
     display: grid;
     grid-template-columns: 50% auto;
     height: max-content;
+    align-items: center;
   }
   #user-username{
     text-transform: uppercase;
